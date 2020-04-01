@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  apicovid:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nodejs
+    container_name: apicovid
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MONGO_USERNAME=$MONGO_USERNAME
+      - MONGO_PASSWORD=$MONGO_PASSWORD
+      - MONGO_HOSTNAME=$MONGO_HOST
+      - MONGO_PORT=$MONGO_PORT
+      - MONGO_DB=$MONGO_DB
+    ports:
+      - $PORT:$PORT
+    volumes:
+      - .:/home/node/app
+      - node_modules:/home/node/app/node_modules
+    networks:
+      - covid-network
+    command: ./wait-for.sh localhost:27027 -- /home/node/app/node_modules/.bin/nodemon app.js
+
+  db:
+    image: mongo:4.1.8-xenial
+    container_name: coviddb
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - $MONGO_PORT:$MONGO_PORT
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    volumes:
+      - dbdata:/data/coviddb
+    networks:
+      - covid-network
+networks:
+  covid-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+  node_modules:
