@@ -1,5 +1,6 @@
 const mongoose = require('../../services/database');
 const { AddressSchema } = require('./Address');
+const { SymptomsSchema } = require('./Symptoms');
 const WarningSchema = new mongoose.Schema(
   {
     whistleblower: {
@@ -11,6 +12,7 @@ const WarningSchema = new mongoose.Schema(
       ref: 'User'
     },
     address: AddressSchema,
+    symptoms: [SymptomsSchema],
 
     active: {
       type: Boolean,
