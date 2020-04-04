@@ -6,68 +6,69 @@ const AddressSchema = new mongoose.Schema(
     //   type: mongoose.Schema.Types.ObjectId,
     //   ref: 'Individual'
     // },
-    // bess: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: 'Bess'
-    // },
     addressline1: {
-      type: String
+      type: String,
     },
     addressline2: {
-      type: String
+      type: String,
     },
     throughfare: {
-      type: String
+      type: String,
     },
     subThroughfare: {
-      type: String
+      type: String,
     },
     administrativeArea: {
-      type: String
+      type: String,
     },
     subAdministrativeArea: {
-      type: String
+      type: String,
     },
     locality: {
-      type: String
+      type: String,
     },
     subLocality: {
-      type: String
+      type: String,
     },
     postalCode: {
-      type: String
+      type: String,
     },
     country: {
-      type: String
+      type: String,
     },
     isoCode: {
       type: String,
-      uppercase: true
+      uppercase: true,
     },
     timezone: {
-      type: String
+      type: String,
     },
     location: {
       type: {
         type: String, // Don't do `{ location: { type: String } }`
         enum: ['Point'], // 'location.type' must be 'Point'
-        required: true
+        required: true,
+        default: 'Point',
       },
       coordinates: {
         type: [Number],
-        required: true
-      }
+        required: true,
+        default: [0, 0],
+      },
     },
     active: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
+
+AddressSchema.index({ location: '2dsphere' });
+
 module.exports = {
   Address: mongoose.model('Address', AddressSchema),
-  AddressSchema
+  AddressSchema,
 };

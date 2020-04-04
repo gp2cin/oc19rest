@@ -1,11 +1,16 @@
 const mongoose = require('../../services/database');
 
-const PhoneSchema = new mongoose.Schema(
+const MedicineSchema = new mongoose.Schema(
   {
-    number: {
+    name: {
       type: String,
       required: true,
     },
+    componentes: [
+      {
+        type: String,
+      },
+    ],
     active: {
       type: Boolean,
       default: true,
@@ -17,6 +22,6 @@ const PhoneSchema = new mongoose.Schema(
   }
 );
 module.exports = {
-  Phone: mongoose.model('Phone', PhoneSchema),
-  PhoneSchema,
+  Medicine: mongoose.model('Medicine', MedicineSchema),
+  MedicineSchema,
 };

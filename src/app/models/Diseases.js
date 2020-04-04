@@ -1,7 +1,11 @@
 const mongoose = require('../../services/database');
 
-const PhoneSchema = new mongoose.Schema(
+const DiseasesSchema = new mongoose.Schema(
   {
+    individual: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Individual',
+    },
     number: {
       type: String,
       required: true,
@@ -17,6 +21,6 @@ const PhoneSchema = new mongoose.Schema(
   }
 );
 module.exports = {
-  Phone: mongoose.model('Phone', PhoneSchema),
-  PhoneSchema,
+  Diseases: mongoose.model('Diseases', DiseasesSchema),
+  DiseasesSchema,
 };

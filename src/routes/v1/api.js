@@ -1,12 +1,14 @@
 const router = require('express').Router();
-const authMiddleware = require('../../app/middleware/auth');
-const AuthController = require('../../app/controllers/AuthController');
-const AddressController = require('../../app/controllers/AddressController');
-const PhoneController = require('../../app/controllers/PhoneController');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
+const authMiddleware = require('../../app/middleware/auth');
 
-var APIRoutes = function(passport) {
+const AuthController = require('../../app/controllers/AuthController');
+const PhoneController = require('../../app/controllers/PhoneController');
+const AddressController = require('../../app/controllers/AddressController');
+const WarningController = require('../../app/controllers/WarningController');
+
+var APIRoutes = function (passport) {
   router.post('/signin', AuthController.signIn);
   router.post('/signup', AuthController.signUp);
   router.get('/me', authMiddleware.checkToken, AuthController.me);
@@ -23,7 +25,8 @@ var APIRoutes = function(passport) {
   router.put('/phones/:id', authMiddleware.checkToken, PhoneController.update);
   router.delete('/phones/:id', authMiddleware.checkToken, PhoneController.remove);
 
-  router.get('/besses');
+  router.post('/warnings', WarningController.store);
+  router.get('/warnings/map', WarningController.map);
 
   router.use('/docs', swaggerUi.serve);
   router.get('/docs', swaggerUi.setup(swaggerDocument));

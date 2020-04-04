@@ -18,7 +18,7 @@ const storageTypes = {
           .replace(/[\u0300-\u036f]/g, '')}`;
         callback(null, file.key);
       });
-    }
+    },
   }),
   s3: multerS3({
     s3: new aws.S3(),
@@ -34,14 +34,14 @@ const storageTypes = {
           .replace(/[\u0300-\u036f]/g, '')}`;
         callback(null, fileName);
       });
-    }
-  })
+    },
+  }),
 };
 const multerConfig = {
   dest: path.resolve(__dirname, '..', '..', 'tmp', 'uploads'),
   storage: storageTypes['s3'],
   limits: {
-    fileSize: 50 * 1024 * 1024
+    fileSize: 50 * 1024 * 1024,
   },
   fileFilter: (req, file, callback) => {
     const allowedMimes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'text/xml', 'application/xml'];
@@ -50,7 +50,7 @@ const multerConfig = {
     } else {
       callback(new Error('Invalid file type'));
     }
-  }
+  },
 };
 
 module.exports = multerConfig;
