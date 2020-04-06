@@ -83,10 +83,40 @@ const WarningController = {
       res.status(400).send(e);
     }
   },
-  list: (req, res) => {
+  list: async (req, res) => {
     try {
-      const { radius, lat, lng } = req.params;
-      console.log(radius, lat, lng);
+      lmt = 20;
+      ofst = 0; // tamanho da página
+      pg = 1;
+      const { page, limit, offset } = req.query;
+      if (limit) {
+        lmt = limit;
+      }
+      if (offset) {
+        ofst = offset;
+      }
+      if (page) {
+        ofst = (parseInt(page) - 1) * limit;
+      }
+
+      const count = await Warning.count({
+        active: true,
+      });
+
+      const warnings = await Warning.find({
+        active: true,
+      })
+        .limit(lmt)
+        .skip(offset);
+      if (warnings)
+        res.status(200).send({
+          warnings,
+          pagination: {
+            count,
+            pages: Math.ceil(count / lmt),
+            page: parseInt(page),
+          },
+        });
     } catch (e) {
       console.log(e);
       res.status(400).send(e);
@@ -97,17 +127,13 @@ const WarningController = {
       const { radius, lat, lng } = req.query;
       console.log(radius, lat, lng);
       const warnings = await Warning.find({
-        address: {
-          location: {
-            $geoWithin: {
-              $nearSphere: {
-                $geometry: {
-                  type: 'Point',
-                  coordinates: [lat, lng],
-                },
-                $maxDistance: 100000000000000000000000 * 100000000000000000000000,
-              },
+        'address.location': {
+          $near: {
+            $geometry: {
+              type: 'Point',
+              coordinates: [lat, lng],
             },
+            $maxDistance: radius * 1000,
           },
         },
       });

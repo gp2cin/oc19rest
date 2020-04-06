@@ -27,6 +27,7 @@ var APIRoutes = function (passport) {
 
   router.post('/warnings', WarningController.store);
   router.get('/warnings/map', WarningController.map);
+  router.get('/warnings', WarningController.list);
 
   router.use('/docs', swaggerUi.serve);
   router.get('/docs', swaggerUi.setup(swaggerDocument));
