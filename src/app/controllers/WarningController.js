@@ -40,14 +40,11 @@ const WarningController = {
           birthdate: moment(birthdate),
         });
         user.individual = individual;
-        console.log(user._id);
         await user.save();
-        console.log(user._id);
         userId = user._id;
       } else {
         userId = searchUser._id;
       }
-      console.log(address);
       const addrss = await Address.create(address);
       const warning = await Warning.create({
         body_temperature,
@@ -118,15 +115,14 @@ const WarningController = {
           },
         });
     } catch (e) {
-      console.log(e);
       res.status(400).send(e);
     }
   },
   map: async (req, res) => {
     try {
       const { radius, lat, lng } = req.query;
-      console.log(radius, lat, lng);
       const warnings = await Warning.find({
+        active: true,
         'address.location': {
           $near: {
             $geometry: {
@@ -137,10 +133,8 @@ const WarningController = {
           },
         },
       });
-      console.log(warnings);
       if (warnings) res.status(200).send(warnings);
     } catch (e) {
-      console.log(e);
       res.status(400).send(e);
     }
   },
