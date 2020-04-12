@@ -2,13 +2,38 @@ const mongoose = require('../../services/database');
 
 const DiseasesSchema = new mongoose.Schema(
   {
-    individual: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Individual',
+    hypertensive: {
+      type: Boolean,
     },
-    number: {
-      type: String,
-      required: true,
+    diabetes: {
+      type: Boolean,
+    },
+    heart_disease: {
+      type: Boolean,
+    },
+    liver_disease: {
+      type: Boolean,
+    },
+    neurological_disorders: {
+      type: Boolean,
+    },
+    neuromuscular_disease: {
+      type: Boolean,
+    },
+    immunodeficiency: {
+      type: Boolean,
+    },
+    kidney_disease: {
+      type: Boolean,
+    },
+    lung_disease: {
+      type: Boolean,
+    },
+    HIV_infection: {
+      type: Boolean,
+    },
+    neoplasm: {
+      type: Boolean,
     },
     active: {
       type: Boolean,
