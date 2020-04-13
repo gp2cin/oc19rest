@@ -2,7 +2,6 @@ const router = require('express').Router();
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const authMiddleware = require('../../app/middleware/auth');
-//const checkSheets = require('../../app/middleware/checkSheets')
 
 const AuthController = require('../../app/controllers/AuthController');
 const PhoneController = require('../../app/controllers/PhoneController');
