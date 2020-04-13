@@ -2,11 +2,13 @@ const router = require('express').Router();
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const authMiddleware = require('../../app/middleware/auth');
+//const checkSheets = require('../../app/middleware/checkSheets')
 
 const AuthController = require('../../app/controllers/AuthController');
 const PhoneController = require('../../app/controllers/PhoneController');
 const AddressController = require('../../app/controllers/AddressController');
 const WarningController = require('../../app/controllers/WarningController');
+const CaseController = require('../../app/controllers/CaseController');
 
 var APIRoutes = function (passport) {
   router.post('/signin', AuthController.signIn);
@@ -28,6 +30,8 @@ var APIRoutes = function (passport) {
   router.post('/warnings', WarningController.store);
   router.get('/warnings/map', WarningController.map);
   router.get('/warnings', WarningController.list);
+
+  router.get('/cases', CaseController.find);
 
   router.use('/docs', swaggerUi.serve);
   router.get('/docs', swaggerUi.setup(swaggerDocument));
