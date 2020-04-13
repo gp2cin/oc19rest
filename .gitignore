@@ -104,4 +104,4 @@ dist
 .tern-port
 
 # Google Spreadsheets crdentials
-src/services/sheets/credentials.js
+src/sheets/credentials.js
