@@ -13,7 +13,6 @@ const CountryData = async function (doc) {
 
 
     const data = {
-        'name': country_sheet.title.toLowerCase(),
         'confirmed': Number(last._rawData[1].replace(/[^0-9]/g, '')),
         'deaths': Number(last._rawData[2].replace(/[^0-9]/g, '')),
         'newCases': Number(new_cases.replace(/[^0-9]/g, '')),

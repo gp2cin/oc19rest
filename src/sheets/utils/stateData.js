@@ -26,7 +26,6 @@ const StateData = async function (doc) {
     });
 
     const data = {
-        'name': state_sheet.title.toLowerCase(),
         'cities': cities,
         'suspects': Number(total._rawData[1].replace(/[^0-9]/g, '')),
         'confirmed': Number(total._rawData[2].replace(/[^0-9]/g, '')),

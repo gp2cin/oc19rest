@@ -3,11 +3,11 @@ dotenv.config()
 const { SHEETS_URL, SHEETS_CREDENTIALS_CLIENT_EMAIL, SHEETS_CREDENTIALS_PRIVATE_KEY } = process.env
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-const StateData = require('./stateData');
-const WorldData = require('./worldData');
-const CountryData = require('./countryData')
+const StateData = require('./utils/stateData');
+const WorldData = require('./utils/worldData');
+const CountryData = require('./utils/countryData')
 
-async function AccessSpreadsheet() {
+const AccessSpreadsheet = async function () {
     //peganda a planilha usando a chave na URL
     const document = new GoogleSpreadsheet(SHEETS_URL)
 

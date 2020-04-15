@@ -1,10 +1,10 @@
 const mongoose = require('../../services/database');
 
-const CitySchema = new mongoose.Schema(
+const StateSchema = new mongoose.Schema(
     {
-        name: {
-            type: String,
-            required: true,
+        cities: {
+            type: [],
+            required: true
         },
         suspects: {
             type: Number,
@@ -30,14 +30,18 @@ const CitySchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
-        uf: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'State'
+        lethality_percentage: {
+            type: Number,
+            required: true,
+        },
+        updatedAt: {
+            type: Date,
+            required: true
         },
     }
 );
 
 module.exports = {
-    City: mongoose.model('City', CitySchema),
-    CitySchema
+    State: mongoose.model('State', StateSchema),
+    StateSchema
 }
