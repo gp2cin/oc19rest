@@ -6,7 +6,7 @@ const { State } = require('../app/models/StateCases');
 const { Country } = require('../app/models/CountryCases');
 
 //atualiza a cada dia
-const update = cron.schedule('0 0 0 * * *', async () => {
+const update = cron.schedule('0 * * * * *', async () => {
     const doc = await AccessSpreadsheet();
     const world_sheet = doc.world;
     const country_sheet = doc.country;

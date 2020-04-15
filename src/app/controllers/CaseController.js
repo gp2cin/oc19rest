@@ -36,8 +36,8 @@ const CaseController = {
                     __v
                 });
             } else {
-                const state = await State.findOne().sort({ updatedAt: -1 });
-                const city = state.cities.find(element => element.name == cidade.toLowerCase())
+                const { cities } = await State.findOne().sort({ updatedAt: -1 });
+                const city = cities.find(element => element.name == cidade.toLowerCase())
 
                 if (city) res.status(200).send(city)
                 else res.status(404).send({ message: `city '${cidade.toLowerCase()}' not found` });
