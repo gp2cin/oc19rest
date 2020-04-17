@@ -7,7 +7,7 @@ const StateData = async function (doc) {
 
     const country_sheet = doc.sheetsByIndex[5];
     await country_sheet.loadCells('D18');
-    const country_cell = country_sheet.getCellByA1('D18')
+    const cell = country_sheet.getCellByA1('D18')
 
     //Pega os dados dos municipios
     let cities = []
@@ -33,7 +33,7 @@ const StateData = async function (doc) {
         'deaths': Number(total._rawData[4].replace(/[^0-9]/g, '')),
         'active': Number(total._rawData[5].replace(/[^0-9]/g, '')),
         'total': Number(total._rawData[6].replace(/[^0-9]/g, '')),
-        'lethality_percentage': Number(country_cell.value.replace(/%/g, '')),
+        'lethality_percentage': Number((cell.value * 100).toPrecision(3)),
         'updatedAt': await UpdateDate(doc, 'B3')
     }
     return data

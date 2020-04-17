@@ -27,7 +27,7 @@ const update = cron.schedule('0 * * * * *', async () => {
                 updatedAt
             });
             await record.save()
-            console.log('Google Spreadsheet: World sheet updated at ', updatedAt.toLocaleString())
+            console.log('Google Spreadsheet: World sheet updated at ', updatedAt.toUTCString())
         }
         if (!country_model) {
             const { confirmed, deaths, newCases, newDeaths, lethality_percentage, updatedAt } = country_sheet;
@@ -40,7 +40,7 @@ const update = cron.schedule('0 * * * * *', async () => {
                 updatedAt
             });
             await record.save()
-            console.log('Google Spreadsheet: Country sheet updated at ', updatedAt.toLocaleString())
+            console.log('Google Spreadsheet: Country sheet updated at ', updatedAt.toUTCString())
         }
         if (!state_model) {
             const { cities, suspects, confirmed, recovered, deaths, active, total, lethality_percentage, updatedAt } = state_sheet;
@@ -56,7 +56,7 @@ const update = cron.schedule('0 * * * * *', async () => {
                 updatedAt
             });
             await record.save()
-            console.log('Google Spreadsheet: State sheet updated at ', updatedAt.toLocaleString())
+            console.log('Google Spreadsheet: State sheet updated at ', updatedAt.toUTCString())
         } else {
             console.log('Google Spreadsheet: Everything is updated');
         }
