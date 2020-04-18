@@ -1,15 +1,12 @@
 'use strict';
-
 const config = require('../config/config');
 const mongoose = require('mongoose');
-
-console.log(config.uri);
 mongoose
   .connect(config.uri, config.options)
   .then(() => {
     console.log('MongoDB is connected');
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err);
   });
 

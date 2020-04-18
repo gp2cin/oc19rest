@@ -9,10 +9,10 @@ const AddressController = require('../../app/controllers/AddressController');
 const WarningController = require('../../app/controllers/WarningController');
 const CaseController = require('../../app/controllers/CaseController');
 
-const updateGoogleSpreadsheet = require('../../sheets/updateSpreadsheet')
+const updateGoogleSpreadsheet = require('../../sheets/updateSpreadsheet');
 
 var APIRoutes = function (passport) {
-  updateGoogleSpreadsheet.start() //atualização das planilhas do Google Spreadsheet
+  updateGoogleSpreadsheet.start(); //atualização das planilhas do Google Spreadsheet
 
   router.post('/signin', AuthController.signIn);
   router.post('/signup', AuthController.signUp);
@@ -35,7 +35,7 @@ var APIRoutes = function (passport) {
   router.get('/warnings', WarningController.list);
 
   router.get('/cases', CaseController.list);
-  router.get('/cases/state', CaseController.find)
+  router.get('/cases/state', CaseController.find);
 
   router.use('/docs', swaggerUi.serve);
   router.get('/docs', swaggerUi.setup(swaggerDocument));

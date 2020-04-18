@@ -4,6 +4,7 @@ const { User } = require('../models/User');
 const { Warning } = require('../models/Warning');
 const { Address } = require('../models/Address');
 const { Individual } = require('../models/Individual');
+const { Diseases } = require('../models/Diseases');
 
 const WarningController = {
   store: async (req, res) => {
@@ -28,6 +29,7 @@ const WarningController = {
         birthdate,
         gender,
         address,
+        diseases,
       } = req.body;
       if (!email) res.status(400).send({ message: 'Email is not found.' });
       const searchUser = await User.findOne({ email });
@@ -46,6 +48,7 @@ const WarningController = {
         userId = searchUser._id;
       }
       const addrss = await Address.create(address);
+      const diseass = await Diseases.create(diseases);
       const warning = await Warning.create({
         body_temperature,
         fever,
@@ -66,6 +69,7 @@ const WarningController = {
       warning.whistleblower = userId;
       warning.reported = userId;
       warning.address = addrss;
+      warning.diseases = diseass;
       warning.save();
       warning.whistleblower = undefined;
       warning.reported = undefined;

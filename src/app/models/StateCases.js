@@ -1,47 +1,45 @@
 const mongoose = require('../../services/database');
 
-const StateSchema = new mongoose.Schema(
-    {
-        cities: {
-            type: [],
-            required: true
-        },
-        suspects: {
-            type: Number,
-            required: true,
-        },
-        confirmed: {
-            type: Number,
-            required: true,
-        },
-        recovered: {
-            type: Number,
-            required: true,
-        },
-        deaths: {
-            type: Number,
-            required: true,
-        },
-        active: {
-            type: Number,
-            required: true,
-        },
-        total: {
-            type: Number,
-            required: true,
-        },
-        lethality_percentage: {
-            type: Number,
-            required: true,
-        },
-        updatedAt: {
-            type: Date,
-            required: true
-        },
-    }
-);
+const StateSchema = new mongoose.Schema({
+  cities: {
+    type: [],
+    required: true,
+  },
+  suspects: {
+    type: Number,
+    required: true,
+  },
+  confirmed: {
+    type: Number,
+    required: true,
+  },
+  recovered: {
+    type: Number,
+    required: true,
+  },
+  deaths: {
+    type: Number,
+    required: true,
+  },
+  active: {
+    type: Number,
+    required: true,
+  },
+  total: {
+    type: Number,
+    required: true,
+  },
+  lethality_percentage: {
+    type: Number,
+    required: true,
+  },
+  updatedAt: {
+    type: Date,
+    required: true,
+  },
+});
 
 module.exports = {
-    State: mongoose.model('State', StateSchema),
-    StateSchema
-}
+  State: mongoose.model('State', StateSchema),
+  StateSchema,
+};

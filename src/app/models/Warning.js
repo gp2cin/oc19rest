@@ -29,7 +29,7 @@ const WarningSchema = new mongoose.Schema(
     covid_result: {
       type: Boolean,
     },
-    pre_existing_diseases: DiseasesSchema,
+    diseases: DiseasesSchema,
     active: {
       type: Boolean,
       default: true,
