@@ -5,13 +5,20 @@ const StateData = async function (doc) {
   const state_rows = await state_sheet.getRows();
   const total = state_rows[state_rows.length - 1]; //Pega o total dos dados
 
+<<<<<<< HEAD
   const country_sheet = doc.sheetsByIndex[5];
   await country_sheet.loadCells('D18');
   const country_cell = country_sheet.getCellByA1('D18');
+=======
+    const country_sheet = doc.sheetsByIndex[5];
+    await country_sheet.loadCells('D18');
+    const cell = country_sheet.getCellByA1('D18')
+>>>>>>> d2b21e0f3824780fc179bcc33870a65fd68ded57
 
   //Pega os dados dos municipios
   let cities = [];
 
+<<<<<<< HEAD
   state_rows.forEach((row) => {
     console.log(row);
     if (!(row.Município === '' || row.Município === 'Total')) {
@@ -24,6 +31,18 @@ const StateData = async function (doc) {
         active: Number(row._rawData[5].replace(/[^0-9]/g, '')),
         total: Number(row._rawData[6].replace(/[^0-9]/g, '')),
       });
+=======
+    const data = {
+        'cities': cities,
+        'suspects': Number(total._rawData[1].replace(/[^0-9]/g, '')),
+        'confirmed': Number(total._rawData[2].replace(/[^0-9]/g, '')),
+        'recovered': Number(total._rawData[3].replace(/[^0-9]/g, '')),
+        'deaths': Number(total._rawData[4].replace(/[^0-9]/g, '')),
+        'active': Number(total._rawData[5].replace(/[^0-9]/g, '')),
+        'total': Number(total._rawData[6].replace(/[^0-9]/g, '')),
+        'lethality_percentage': Number((cell.value * 100).toPrecision(3)),
+        'updatedAt': await UpdateDate(doc, 'B3')
+>>>>>>> d2b21e0f3824780fc179bcc33870a65fd68ded57
     }
   });
 
