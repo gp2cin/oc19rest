@@ -1,6 +1,6 @@
 const UpdateDate = require('./updateDate');
 
-const CountryData = async function (doc) {
+const CountrySheet = async function (doc) {
   const country_sheet = doc.sheetsByIndex[5]; //Pega a tabela de casos por municipios de Pernambuco
   const rows = await country_sheet.getRows();
   const last = rows[rows.length - 1];
@@ -23,4 +23,4 @@ const CountryData = async function (doc) {
   return data;
 };
 
-module.exports = CountryData;
+module.exports = CountrySheet;
