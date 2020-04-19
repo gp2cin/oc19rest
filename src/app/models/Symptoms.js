@@ -2,10 +2,6 @@ const mongoose = require('../../services/database');
 
 const SymptomsSchema = new mongoose.Schema(
   {
-    body_temperature: {
-      type: Number,
-      required: true
-    },
     fever: {
       type: Boolean,
       default: false
@@ -22,6 +18,10 @@ const SymptomsSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
+    dry_cough: {
+      type: Boolean,
+      default: false
+    },
     cough: {
       type: Boolean,
       default: false
@@ -30,7 +30,11 @@ const SymptomsSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
-    body_ache: {
+    muscle_weakness_or_pain: {
+      type: Boolean,
+      default: false
+    },
+    sputum_production: {
       type: Boolean,
       default: false
     },
@@ -38,7 +42,7 @@ const SymptomsSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
-    bellyache: {
+    red_eyes: {
       type: Boolean,
       default: false
     },
@@ -46,19 +50,29 @@ const SymptomsSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
-    malaise: {
+    dificulty_swallowing: {
       type: Boolean,
       default: false
     },
-    pain_level: {
-      type: Number
-    },
-    took_medicine: {
+    chills: {
       type: Boolean,
       default: false
     },
-    better: {
-      type: Boolean
+    body_red_spots: {
+      type: Boolean,
+      default: false
+    },
+    nausea: {
+      type: Boolean,
+      default: false
+    },
+    vomiting: {
+      type: Boolean,
+      default: false
+    },
+    lack_of_appetite: {
+      type: Boolean,
+      default: false
     },
     active: {
       type: Boolean,
