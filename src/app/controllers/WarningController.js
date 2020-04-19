@@ -5,27 +5,14 @@ const { Warning } = require('../models/Warning');
 const { Address } = require('../models/Address');
 const { Individual } = require('../models/Individual');
 const { Diseases } = require('../models/Diseases');
+const { Symptoms } = require('../models/Symptoms');
 
 const WarningController = {
   store: async (req, res) => {
     try {
       const {
         email,
-        body_temperature,
-        fever,
-        runny_nose,
-        sutuffy_nose,
-        breathlessness,
-        cough,
-        headache,
-        body_ache,
-        sore_throat,
-        bellyache,
-        diarrhea,
-        malaise,
-        pain_level,
-        took_medicine,
-        better,
+        symptoms,
         birthdate,
         gender,
         address,
@@ -49,27 +36,13 @@ const WarningController = {
       }
       const addrss = await Address.create(address);
       const diseass = await Diseases.create(diseases);
-      const warning = await Warning.create({
-        body_temperature,
-        fever,
-        runny_nose,
-        sutuffy_nose,
-        breathlessness,
-        cough,
-        headache,
-        body_ache,
-        sore_throat,
-        bellyache,
-        diarrhea,
-        malaise,
-        pain_level,
-        took_medicine,
-        better,
-      });
+      const symp = await Symptoms.create(symptoms);
+      const warning = await Warning.create({});
       warning.whistleblower = userId;
       warning.reported = userId;
       warning.address = addrss;
       warning.diseases = diseass;
+      warning.symptoms = symp;
       warning.save();
       warning.whistleblower = undefined;
       warning.reported = undefined;

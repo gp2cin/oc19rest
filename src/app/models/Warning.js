@@ -19,7 +19,7 @@ const WarningSchema = new mongoose.Schema(
       ref: 'Phone',
     },
     address: AddressSchema,
-    symptoms: [SymptomsSchema],
+    symptoms: SymptomsSchema,
     approached: {
       type: Date,
     },
