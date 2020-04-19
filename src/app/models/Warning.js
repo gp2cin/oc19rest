@@ -29,6 +29,21 @@ const WarningSchema = new mongoose.Schema(
     covid_result: {
       type: Boolean,
     },
+    contact_suspect_or_confirmed_case: {
+      type: Boolean,
+    },
+    household_contact_confirmed_case: {
+      type: Boolean,
+    },
+    been_in_health_unit: {
+      type: Boolean,
+    },
+    had_evaluation_for_symptoms: {
+      type: Boolean,
+    },
+    covid19_was_discarded: {
+      type: Boolean,
+    },
     diseases: DiseasesSchema,
     active: {
       type: Boolean,
