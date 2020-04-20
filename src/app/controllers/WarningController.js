@@ -17,6 +17,13 @@ const WarningController = {
         gender,
         address,
         diseases,
+        covid_tested,
+        covid_result,
+        covid19_was_discarded,
+        contact_suspect_or_confirmed_case,
+        household_contact_confirmed_case,
+        been_in_health_unit,
+        had_evaluation_for_symptoms
       } = req.body;
       if (!email) res.status(400).send({ message: 'Email is not found.' });
       const searchUser = await User.findOne({ email });
@@ -43,6 +50,13 @@ const WarningController = {
       warning.address = addrss;
       warning.diseases = diseass;
       warning.symptoms = symp;
+      warning.covid_tested = covid_tested;
+      warning.covid_result = covid_result;
+      warning.covid19_was_discarded = covid19_was_discarded;
+      warning.contact_suspect_or_confirmed_case = contact_suspect_or_confirmed_case;
+      warning.household_contact_confirmed_case = household_contact_confirmed_case;
+      warning.been_in_health_unit = been_in_health_unit;
+      warning.had_evaluation_for_symptoms = had_evaluation_for_symptoms;
       warning.save();
       warning.whistleblower = undefined;
       warning.reported = undefined;
