@@ -25,10 +25,6 @@ const StateSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  total: {
-    type: Number,
-    required: true,
-  },
   lethality_percentage: {
     type: Number,
     required: true,
