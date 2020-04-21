@@ -6,51 +6,45 @@ const UserSchema = new mongoose.Schema(
   {
     first_name: {
       type: String,
-      required: true
     },
     last_name: {
-      type: String
-    },
-    username: {
       type: String,
-      unique: true,
-      required: true
     },
     email: {
       type: String,
       unique: true,
       lowercase: true,
       required: true,
-      match: [emailRegex, 'Please enter a valid email address']
+      match: [emailRegex, 'Please enter a valid email address'],
     },
     password: {
       type: String,
-      select: false
+      select: false,
     },
     password_token: {
       type: String,
-      select: false
+      select: false,
     },
     password_token_created_at: {
       type: Date,
-      select: false
+      select: false,
     },
     individual: IndividualSchema,
     active: {
       type: Boolean,
       default: true,
-      select: false
+      select: false,
     },
     lastSignedIn: {
       type: Date,
-      default: Date.now
-    }
+      default: Date.now,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
-UserSchema.pre('save', async function(next) {
+UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   const hash = await bcrypt.hash(this.password, 10);
   this.password = hash;
@@ -59,5 +53,5 @@ UserSchema.pre('save', async function(next) {
 
 module.exports = {
   User: mongoose.model('User', UserSchema),
-  UserSchema
+  UserSchema,
 };

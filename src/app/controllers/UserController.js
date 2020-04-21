@@ -3,7 +3,7 @@ const { Individual } = require('../models/Individual');
 
 const UserController = {
   store: async (req, res) => {
-    const { username, password, first_name, last_name, email, gender, birthdate } = req.body;
+    const { password, first_name, last_name, email, gender, birthdate } = req.body;
     try {
       if (!(password || first_name || email))
         res.status(404).send({ error: 'First name, email and password are required.' });
@@ -11,7 +11,7 @@ const UserController = {
       if (searchUser) {
         res.status(400).send({ error: 'User alredy exists.' });
       } else {
-        const user = await User.create({ username, password, first_name, last_name, email, active: true });
+        const user = await User.create({ password, first_name, last_name, email, active: true });
         if (user) {
           const individual = await Individual.create({
             gender,

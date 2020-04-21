@@ -31,7 +31,7 @@ class AppController {
 
   routes() {
     // 8. Rota inicial.
-    this.express.all('/*', function(req, res, next) {
+    this.express.all('/*', function (req, res, next) {
       var oneof = false;
       if (req.headers.origin) {
         res.header('Access-Control-Allow-Origin', req.headers.origin);
@@ -57,20 +57,20 @@ class AppController {
       }
     });
 
-    this.express.get('/', function(req, res, next) {
+    this.express.get('/', function (req, res, next) {
       // Handle the get for this route
       res.status(418).json({ message: 'Welcome' });
     });
 
-    this.express.post('/', function(req, res, next) {
+    this.express.post('/', function (req, res, next) {
       // Handle the post for this route
       res.status(418).json({ message: 'Welcome' });
     });
-    this.express.put('/', function(req, res, next) {
+    this.express.put('/', function (req, res, next) {
       // Handle the post for this route
       res.status(418).json({ message: 'Welcome' });
     });
-    this.express.delete('/', function(req, res, next) {
+    this.express.delete('/', function (req, res, next) {
       // Handle the post for this route
       res.status(418).json({ message: 'Welcome' });
     });
@@ -79,7 +79,7 @@ class AppController {
     this.express.use('/api/v1', v1);
 
     // Pegando todas as rotas.
-    this.express.get('*', function(req, res) {
+    this.express.get('*', function (req, res) {
       res.status(200).json({ message: 'Welcome' });
     });
   }

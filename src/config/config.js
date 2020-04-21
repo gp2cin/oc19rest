@@ -12,7 +12,7 @@ module.exports = {
     // reconnectInterval: 500,
     connectTimeoutMS: 10000,
     useUnifiedTopology: true,
-    useCreateIndex: true
+    useCreateIndex: true,
   },
-  uri
+  uri,
 };

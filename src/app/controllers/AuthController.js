@@ -11,9 +11,10 @@ class AuthController {
    * Function to login with user
    */
   async signIn(req, res) {
-    const { username, email, password } = req.body;
+    const { email, password } = req.body;
     try {
-      const user = await User.findOne({ $or: [{ email }, { username }] }).select('+password');
+      // const user = await User.findOne({ $or: [{ email }, { username }] }).select('+password');
+      const user = await User.findOne({ email }).select('+password');
       if (!user) res.status(400).send({ error: 'User not found.' });
       if (!(await bcrypt.compare(password, user.password))) res.status(400).send({ error: 'Invalid password' });
 
@@ -31,7 +32,7 @@ class AuthController {
    * Function to register and get token
    */
   async signUp(req, res) {
-    const { username, password, first_name, last_name, email, gender, birthdate } = req.body;
+    const { password, first_name, last_name, email, gender, birthdate } = req.body;
     try {
       if (!(password || first_name || email))
         res.status(404).send({ error: 'First name, email and password are required.' });
@@ -39,7 +40,7 @@ class AuthController {
       if (searchUser) {
         res.status(400).send({ error: 'User alredy exists.' });
       } else {
-        const user = await User.create({ username, password, first_name, last_name, email, active: true });
+        const user = await User.create({ password, first_name, last_name, email, active: true });
         if (user) {
           const individual = await Individual.create({
             gender,
