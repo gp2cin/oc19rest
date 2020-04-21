@@ -124,54 +124,93 @@ const WarningController = {
           },
         },
       });
-      warnings.map((warning) => {
-        let total = 0;
-        const {
-          fever,
-          runny_nose,
-          breathlessness,
-          dry_cough,
-          cough,
-          headache,
-          muscle_weakness_or_pain,
-          sputum_production,
-          sore_throat,
-          diarrhea,
-          stuffy_nose,
-          red_eyes,
-          dificulty_swallowing,
-          chills,
-          body_red_spots,
-          nausea,
-          vomiting,
-          lack_of_appeti,
-        } = warning.symptoms;
-        if (fever) total = total + 5;
-        if (runny_nose) total = total + 1;
-        if (breathlessness) total = total + 10;
-        if (dry_cough || cough) total = total + 3;
-        if (headache) total = total + 1;
-        if (muscle_weakness_or_pain) total = total + 1;
-        if (sputum_production) total = total + 1;
-        if (sore_throat) total = total + 1;
-        if (diarrhea) total = total + 1;
-        if (stuffy_nose) total = total + 1;
-        if (red_eyes) total = total + 1;
-        if (dificulty_swallowing) total = total + 1;
-        if (chills) total = total + 1;
-        if (body_red_spots) total = total + 1;
-        if (nausea) total = total + 1;
-        if (vomiting) total = total + 1;
-        if (lack_of_appeti) total = total + 1;
+      let warngs = warnings.map((warning) => {
+        let total = 1;
+        if (warning.symptoms) {
+          const {
+            fever,
+            runny_nose,
+            breathlessness,
+            dry_cough,
+            cough,
+            headache,
+            muscle_weakness_or_pain,
+            sputum_production,
+            sore_throat,
+            diarrhea,
+            stuffy_nose,
+            red_eyes,
+            dificulty_swallowing,
+            chills,
+            body_red_spots,
+            nausea,
+            vomiting,
+            lack_of_appeti,
+          } = warning.symptoms;
+
+          if (fever) {
+            total = total + 5;
+          }
+          if (runny_nose) {
+            total = total + 1;
+          }
+          if (breathlessness) {
+            total = total + 10;
+          }
+          if (dry_cough || cough) {
+            total = total + 3;
+          }
+          if (headache) {
+            total = total + 1;
+          }
+          if (muscle_weakness_or_pain) {
+            total = total + 1;
+          }
+          if (sputum_production) {
+            total = total + 1;
+          }
+          if (sore_throat) {
+            total = total + 1;
+          }
+          if (diarrhea) {
+            total = total + 1;
+          }
+          if (stuffy_nose) {
+            total = total + 1;
+          }
+          if (red_eyes) {
+            total = total + 1;
+          }
+          if (dificulty_swallowing) {
+            total = total + 1;
+          }
+          if (chills) {
+            total = total + 1;
+          }
+          if (body_red_spots) {
+            total = total + 1;
+          }
+          if (nausea) {
+            total = total + 1;
+          }
+          if (vomiting) {
+            total = total + 1;
+          }
+          if (lack_of_appeti) {
+            total = total + 1;
+          }
+        }
         if (
           warning.contact_suspect_or_confirmed_case ||
           warning.household_contact_confirmed_case ||
           warning.been_in_health_unit
-        )
+        ) {
           total = total + 10;
+        }
         return [warning.address.location.coordinates[0], warning.address.location.coordinates[1], total];
       });
-      if (warnings) res.status(200).send(warnings);
+
+      if (warnings) res.status(200).send(warngs);
     } catch (e) {
       res.status(400).send(e);
     }
