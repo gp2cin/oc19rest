@@ -32,7 +32,7 @@ const WarningController = {
         const password = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         const user = await User.create({ password, email, active: true });
         const individual = await Individual.create({
-          gender: ['MALE', 'FEMALE'].includes(gender.toUpperCase()) ? gender : 'OTHER',
+          gender: gender ? (['MALE', 'FEMALE'].includes(gender.toUpperCase()) ? gender : 'OTHER') : 'OTHER',
           birthdate: moment(birthdate),
         });
         user.individual = individual;
