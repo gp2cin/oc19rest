@@ -23,7 +23,7 @@ const WarningController = {
         contact_suspect_or_confirmed_case,
         household_contact_confirmed_case,
         been_in_health_unit,
-        had_evaluation_for_symptoms
+        had_evaluation_for_symptoms,
       } = req.body;
       if (!email) res.status(400).send({ message: 'Email is not found.' });
       const searchUser = await User.findOne({ email });

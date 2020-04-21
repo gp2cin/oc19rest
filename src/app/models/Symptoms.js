@@ -4,88 +4,88 @@ const SymptomsSchema = new mongoose.Schema(
   {
     fever: {
       type: Boolean,
-      default: false
+      default: false,
     },
     runny_nose: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    sutuffy_nose: {
+    stuffy_nose: {
       type: Boolean,
-      default: false
+      default: false,
     },
     breathlessness: {
       type: Boolean,
-      default: false
+      default: false,
     },
     dry_cough: {
       type: Boolean,
-      default: false
+      default: false,
     },
     cough: {
       type: Boolean,
-      default: false
+      default: false,
     },
     headache: {
       type: Boolean,
-      default: false
+      default: false,
     },
     muscle_weakness_or_pain: {
       type: Boolean,
-      default: false
+      default: false,
     },
     sputum_production: {
       type: Boolean,
-      default: false
+      default: false,
     },
     sore_throat: {
       type: Boolean,
-      default: false
+      default: false,
     },
     red_eyes: {
       type: Boolean,
-      default: false
+      default: false,
     },
     diarrhea: {
       type: Boolean,
-      default: false
+      default: false,
     },
     dificulty_swallowing: {
       type: Boolean,
-      default: false
+      default: false,
     },
     chills: {
       type: Boolean,
-      default: false
+      default: false,
     },
     body_red_spots: {
       type: Boolean,
-      default: false
+      default: false,
     },
     nausea: {
       type: Boolean,
-      default: false
+      default: false,
     },
     vomiting: {
       type: Boolean,
-      default: false
+      default: false,
     },
     lack_of_appetite: {
       type: Boolean,
-      default: false
+      default: false,
     },
     active: {
       type: Boolean,
       default: true,
-      select: false
-    }
+      select: false,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
 module.exports = {
   Symptoms: mongoose.model('Symptoms', SymptomsSchema),
-  SymptomsSchema
+  SymptomsSchema,
 };
