@@ -13,7 +13,7 @@ const StateSheet = async function (doc) {
     let cities = [];
 
     state_rows.forEach((row) => {
-        if (!(row.Município === '' || row.Município === 'Total')) {
+        if (row.Município !== '' || row.Município !== 'Total' || row.Município !== 'Outro Pais' || row.Município !== 'Outro Estado') {
             cities.push({
                 name: row._rawData[0].toLowerCase(),
                 suspects: Number(row._rawData[1].replace(/[^0-9]/g, '')),
