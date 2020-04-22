@@ -5,11 +5,27 @@ const { Country } = require('../models/CountryCases');
 const CaseController = {
     list: async (req, res) => {
         try {
-            const world = await World.findOne().sort({ updatedAt: -1 })
-            const country = await Country.findOne().sort({ updatedAt: -1 })
+            const world_cases = await World.findOne().sort({ updatedAt: -1 })
+            const country_cases = await Country.findOne().sort({ updatedAt: -1 })
+            const state_cases = await State.findOne().sort({ updatedAt: -1 })
+
+            const world = {
+                'confirmed': world_cases.confirmed,
+                'updatedAt': world_cases.updatedAt
+            }
+            const country = {
+                'confirmed': country_cases.confirmed,
+                'updatedAt': country_cases.updatedAt
+            }
+            const state = {
+                'confirmed': state_cases.confirmed,
+                'cities': state_cases.cities,
+                'updatedAt': state_cases.updatedAt
+            }
             res.status(200).send({
                 world,
-                country
+                country,
+                state
             });
         } catch (e) {
             res.status(400).send()
@@ -22,19 +38,8 @@ const CaseController = {
 
         try {
             if (!cidade) {
-                const { _id, suspects, confirmed, recovered, deaths, active, total, lethality_percentage, updatedAt, __v } = await State.findOne().sort({ updatedAt: -1 });
-                res.status(200).send({
-                    _id,
-                    suspects,
-                    confirmed,
-                    recovered,
-                    deaths,
-                    active,
-                    total,
-                    lethality_percentage,
-                    updatedAt,
-                    __v
-                });
+                const state = await State.findOne().sort({ updatedAt: -1 });
+                res.status(200).send(state);
             } else {
                 const { cities } = await State.findOne().sort({ updatedAt: -1 });
                 const city = cities.find(element => element.name == cidade.toLowerCase())
