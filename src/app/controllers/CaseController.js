@@ -19,7 +19,6 @@ const CaseController = {
             }
             const state = {
                 'confirmed': state_cases.confirmed,
-                'cities': state_cases.cities,
                 'updatedAt': state_cases.updatedAt
             }
             res.status(200).send({
@@ -38,8 +37,16 @@ const CaseController = {
 
         try {
             if (!cidade) {
-                const state = await State.findOne().sort({ updatedAt: -1 });
-                res.status(200).send(state);
+                const { suspects, confirmed, recovered, deaths, active, lethality_percentage, updatedAt } = await State.findOne().sort({ updatedAt: -1 });
+                res.status(200).send({
+                    suspects,
+                    confirmed,
+                    recovered,
+                    deaths,
+                    active,
+                    lethality_percentage,
+                    updatedAt
+                });
             } else {
                 const { cities } = await State.findOne().sort({ updatedAt: -1 });
                 const city = cities.find(element => element.name == cidade.toLowerCase())
