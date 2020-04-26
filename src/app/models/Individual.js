@@ -4,6 +4,7 @@ const { AddressSchema } = require('./Address');
 const { DocumentSchema } = require('./Document');
 const { AllergySchema } = require('./Allergy');
 const { MedicineSchema } = require('./Medicine');
+const { DiseasesSchema } = require('./Diseases');
 
 const IndividualSchema = new mongoose.Schema(
   {
@@ -18,9 +19,16 @@ const IndividualSchema = new mongoose.Schema(
     deathdate: {
       type: Date,
     },
+    age: {
+      type: Number,
+    },
+    name: {
+      type: String,
+    },
     photo: {
       type: String,
     },
+    diseases: DiseasesSchema,
     allergies: [AllergySchema],
     documents: [DocumentSchema],
     phones: [PhoneSchema],
