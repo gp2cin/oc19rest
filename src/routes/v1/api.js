@@ -7,6 +7,7 @@ const AuthController = require('../../app/controllers/AuthController');
 const PhoneController = require('../../app/controllers/PhoneController');
 const AddressController = require('../../app/controllers/AddressController');
 const WarningController = require('../../app/controllers/WarningController');
+const ObserverReportController = require('../../app/controllers/ObserverReportController');
 const CaseController = require('../../app/controllers/CaseController');
 
 const updateGoogleSpreadsheet = require('../../sheets/updateSpreadsheet');
@@ -33,6 +34,8 @@ var APIRoutes = function (passport) {
   router.post('/warnings', WarningController.store);
   router.get('/warnings/map', WarningController.map);
   router.get('/warnings', WarningController.list);
+
+  router.post('/observer-report', ObserverReportController.store);
 
   router.get('/cases', CaseController.list);
   router.get('/cases/state', CaseController.find);
