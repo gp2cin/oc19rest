@@ -1,6 +1,6 @@
-const { World } = require('../models/WorldCases');
-const { State } = require('../models/StateCases');
-const { Country } = require('../models/CountryCases');
+const { World } = require('../models/World');
+const { State } = require('../models/State');
+const { Country } = require('../models/Country');
 
 const CaseController = {
     list: async (req, res) => {

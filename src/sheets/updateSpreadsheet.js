@@ -1,9 +1,9 @@
 const cron = require('node-cron');
 const AccessSpreadsheet = require('./accessSpreadsheet');
 
-const { World } = require('../app/models/WorldCases');
-const { State } = require('../app/models/StateCases');
-const { Country } = require('../app/models/CountryCases');
+const { World } = require('../app/models/World');
+const { State } = require('../app/models/State');
+const { Country } = require('../app/models/Country');
 
 //atualiza a cada dia
 const update = cron.schedule(
