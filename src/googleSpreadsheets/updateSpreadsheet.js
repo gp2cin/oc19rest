@@ -13,10 +13,10 @@ const { Country } = require('../app/models/Country');
 const update = cron.schedule(
   '0 * * * * *',
   async () => {
-    const doc = await AccessSpreadsheet(process.env.IRRD_SHEETS_URL);
-    const world_sheet = doc.world;
-    const country_sheet = doc.country;
-    const state_sheet = doc.state;
+    const irrd_doc = await AccessSpreadsheet(process.env.IRRD_SHEETS_URL);
+    const world_sheet = irrd_doc.world;
+    const country_sheet = irrd_doc.country;
+    const state_sheet = irrd_doc.state;
 
     const world_model = await World.findOne({ updated_at: world_sheet.updated_at });
     const country_model = await Country.findOne({ updated_at: country_sheet.updated_at });
