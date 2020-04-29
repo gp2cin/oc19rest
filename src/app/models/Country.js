@@ -22,6 +22,10 @@ const CountrySchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
+        mortality_100k: {
+            type: Number,
+            required: true,
+        },
         updated_at: {
             type: Date,
             required: true
