@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const AccessSpreadsheet = require('./accessSpreadsheet');
+const AccessSpreadsheet = require('./irrd/accessSpreadsheet');
 
 const { World } = require('../app/models/World');
 const { State } = require('../app/models/State');
@@ -14,61 +14,37 @@ const update = cron.schedule(
     const country_sheet = doc.country;
     const state_sheet = doc.state;
 
-    const world_model = await World.findOne({ updatedAt: world_sheet.updatedAt });
-    const country_model = await Country.findOne({ updatedAt: country_sheet.updatedAt });
-    const state_model = await State.findOne({ updatedAt: state_sheet.updatedAt });
+    const world_model = await World.findOne({ updated_at: world_sheet.updated_at });
+    const country_model = await Country.findOne({ updated_at: country_sheet.updated_at });
+    const state_model = await State.findOne({ updated_at: state_sheet.updated_at });
 
     try {
       if (!world_model) {
-        const { confirmed, deaths, newCases, newDeaths, updatedAt } = world_sheet;
-        const record = await World.create({
-          confirmed,
-          deaths,
-          newCases,
-          newDeaths,
-          updatedAt,
-        });
+        const record = await World.create(world_sheet);
         await record.save();
-        console.log(`Google Spreadsheet: World sheet updated at ${updatedAt.toUTCString()}`);
+        console.log(`Google Spreadsheet: World sheet updated at ${world_sheet.updated_at.toUTCString()}`);
       }
       if (!country_model) {
-        const { confirmed, deaths, newCases, newDeaths, lethality_percentage, updatedAt } = country_sheet;
-        const record = await Country.create({
-          confirmed,
-          deaths,
-          newCases,
-          newDeaths,
-          lethality_percentage,
-          updatedAt,
-        });
+        const record = await Country.create(country_sheet);
         await record.save();
-        console.log(`Google Spreadsheet: Country sheet updated at ${updatedAt.toUTCString()}`);
+        console.log(`Google Spreadsheet: Country sheet updated at ${country_sheet.updated_at.toUTCString()}`);
       }
       if (!state_model) {
-        const {
-          cities,
+        const { name, suspects, confirmed, recovered, deaths, active, lethality_percentage, mortality_100k, updated_at } = state_sheet;
+        const state_record = await State.create({
+          name,
           suspects,
           confirmed,
           recovered,
           deaths,
           active,
-          total,
           lethality_percentage,
-          updatedAt,
-        } = state_sheet;
-        const record = await State.create({
-          cities,
-          suspects,
-          confirmed,
-          recovered,
-          deaths,
-          active,
-          total,
-          lethality_percentage,
-          updatedAt,
+          mortality_100k,
+          updated_at,
         });
-        await record.save();
-        console.log(`Google Spreadsheet: State sheet updated at ${updatedAt.toUTCString()}`);
+        await state_record.save();
+
+        console.log(`Google Spreadsheet: State sheet updated at ${state_sheet.updated_at.toUTCString()}`);
       } else {
         console.log('Google Spreadsheet: Everything is updated');
       }
