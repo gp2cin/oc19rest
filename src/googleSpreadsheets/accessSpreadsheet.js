@@ -1,34 +1,39 @@
 const dotenv = require('dotenv');
 dotenv.config();
-const { SHEETS_URL, SHEETS_CREDENTIALS_CLIENT_EMAIL, SHEETS_CREDENTIALS_PRIVATE_KEY } = process.env;
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
-const StateSheet = require('./irrd/stateSheet');
-const WorldSheet = require('./irrd/worldSheet');
-const CountrySheet = require('./irrd/countrySheet');
+const StateSheet = require('./sheets/stateSheet');
+const WorldSheet = require('./sheets/worldSheet');
+const CountrySheet = require('./sheets/countrySheet');
 
-const AccessSpreadsheet = async function () {
+const AccessSpreadsheet = async function (id) {
   //peganda a planilha usando a chave na URL
-  const document = new GoogleSpreadsheet(SHEETS_URL);
+  const document = new GoogleSpreadsheet(id);
 
   //Autenticação
   await document.useServiceAccountAuth({
-    client_email: SHEETS_CREDENTIALS_CLIENT_EMAIL,
-    private_key: SHEETS_CREDENTIALS_PRIVATE_KEY,
+    client_email: process.env.SHEETS_CREDENTIALS_CLIENT_EMAIL,
+    private_key: process.env.SHEETS_CREDENTIALS_PRIVATE_KEY,
   });
 
   await document.loadInfo();
 
-  const world = await WorldSheet(document);
-  const country = await CountrySheet(document);
-  const state = await StateSheet(document);
+  if (id == process.env.IRRD_SHEETS_URL) {
+    const world = await WorldSheet(document);
+    const country = await CountrySheet(document);
+    const state = await StateSheet(document);
 
-  return {
-    world,
-    country,
-    state,
-  };
+    return {
+      world,
+      country,
+      state,
+    };
+  } else {
+    return document
+  }
+
+
 };
 
 module.exports = AccessSpreadsheet;

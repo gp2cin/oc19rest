@@ -1,5 +1,9 @@
 const cron = require('node-cron');
-const AccessSpreadsheet = require('./irrd/accessSpreadsheet');
+
+const dotenv = require('dotenv');
+dotenv.config();
+
+const AccessSpreadsheet = require('./accessSpreadsheet');
 
 const { World } = require('../app/models/World');
 const { State } = require('../app/models/State');
@@ -9,7 +13,7 @@ const { Country } = require('../app/models/Country');
 const update = cron.schedule(
   '0 * * * * *',
   async () => {
-    const doc = await AccessSpreadsheet();
+    const doc = await AccessSpreadsheet(process.env.IRRD_SHEETS_URL);
     const world_sheet = doc.world;
     const country_sheet = doc.country;
     const state_sheet = doc.state;
