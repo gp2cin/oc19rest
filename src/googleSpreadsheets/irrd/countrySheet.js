@@ -14,10 +14,10 @@ const CountrySheet = async function (doc) {
   const data = {
     confirmed: Number(last._rawData[1].replace(/[^0-9]/g, '')),
     deaths: Number(last._rawData[2].replace(/[^0-9]/g, '')),
-    newCases: Number(new_cases.replace(/[^0-9]/g, '')),
-    newDeaths: Number(new_deaths.replace(/[^0-9]/g, '')),
+    new_cases: Number(new_cases.replace(/[^0-9]/g, '')),
+    new_deaths: Number(new_deaths.replace(/[^0-9]/g, '')),
     lethality_percentage: Number(lethality.replace(/%/g, '')),
-    updatedAt: await UpdateDate(doc, 'B2'),
+    updated_at: await UpdateDate(doc, 'B2'),
   };
 
   return data;

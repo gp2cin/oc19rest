@@ -9,7 +9,7 @@ const AddressController = require('../../app/controllers/AddressController');
 const WarningController = require('../../app/controllers/WarningController');
 const CaseController = require('../../app/controllers/CaseController');
 
-const updateGoogleSpreadsheet = require('../../sheets/updateSpreadsheet');
+const updateGoogleSpreadsheet = require('../../googleSpreadsheets/updateSpreadsheet');
 
 var APIRoutes = function (passport) {
   updateGoogleSpreadsheet.start(); //atualização das planilhas do Google Spreadsheet

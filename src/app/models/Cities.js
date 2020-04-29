@@ -1,7 +1,15 @@
 const mongoose = require('../../services/database');
 
-const WorldSchema = new mongoose.Schema({
+const StateSchema = new mongoose.Schema({
+  suspects: {
+    type: Number,
+    required: true,
+  },
   confirmed: {
+    type: Number,
+    required: true,
+  },
+  recovered: {
     type: Number,
     required: true,
   },
@@ -9,21 +17,13 @@ const WorldSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  new_cases: {
+  active: {
     type: Number,
-    required: true,
-  },
-  new_deaths: {
-    type: Number,
-    required: true,
-  },
-  updated_at: {
-    type: Date,
     required: true,
   },
 });
 
 module.exports = {
-  World: mongoose.model('World', WorldSchema),
-  WorldSchema,
+  State: mongoose.model('State', StateSchema),
+  StateSchema,
 };

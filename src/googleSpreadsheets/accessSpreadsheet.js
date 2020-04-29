@@ -4,9 +4,9 @@ const { SHEETS_URL, SHEETS_CREDENTIALS_CLIENT_EMAIL, SHEETS_CREDENTIALS_PRIVATE_
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
-const StateSheet = require('./utils/stateSheet');
-const WorldSheet = require('./utils/worldSheet');
-const CountrySheet = require('./utils/countrySheet');
+const StateSheet = require('./irrd/stateSheet');
+const WorldSheet = require('./irrd/worldSheet');
+const CountrySheet = require('./irrd/countrySheet');
 
 const AccessSpreadsheet = async function () {
   //peganda a planilha usando a chave na URL

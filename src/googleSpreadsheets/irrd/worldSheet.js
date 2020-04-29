@@ -8,9 +8,9 @@ const WorldSheet = async function (doc) {
   const data = {
     confirmed: Number(last._rawData[1].replace(/[^0-9]/g, '')),
     deaths: Number(last._rawData[2].replace(/[^0-9]/g, '')),
-    newCases: Number(last._rawData[3].replace(/[^0-9]/g, '')),
-    newDeaths: Number(last._rawData[4].replace(/[^0-9]/g, '')),
-    updatedAt: await UpdateDate(doc, 'B1'),
+    new_cases: Number(last._rawData[3].replace(/[^0-9]/g, '')),
+    new_deaths: Number(last._rawData[4].replace(/[^0-9]/g, '')),
+    updated_at: await UpdateDate(doc, 'B1'),
   };
 
   return data;

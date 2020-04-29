@@ -1,10 +1,6 @@
 const mongoose = require('../../services/database');
 
 const StateSchema = new mongoose.Schema({
-  cities: {
-    type: [],
-    required: true,
-  },
   suspects: {
     type: Number,
     required: true,
@@ -29,7 +25,7 @@ const StateSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  updatedAt: {
+  updated_at: {
     type: Date,
     required: true,
   },

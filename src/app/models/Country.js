@@ -10,11 +10,11 @@ const CountrySchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
-        newCases: {
+        new_cases: {
             type: Number,
             required: true,
         },
-        newDeaths: {
+        new_deaths: {
             type: Number,
             required: true,
         },
@@ -22,7 +22,7 @@ const CountrySchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
-        updatedAt: {
+        updated_at: {
             type: Date,
             required: true
         },

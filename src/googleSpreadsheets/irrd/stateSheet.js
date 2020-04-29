@@ -4,6 +4,7 @@ const StateSheet = async function (doc) {
     const state_sheet = doc.sheetsByIndex[6]; //Pega a tabela de casos por municipios de Pernambuco
     const state_rows = await state_sheet.getRows();
     const total_row = state_rows[state_rows.length - 1]; //Pega o total dos dados
+    const update = await UpdateDate(doc, 'B3')
 
     const country_sheet = doc.sheetsByIndex[5];
     await country_sheet.loadCells('D18');
@@ -21,6 +22,7 @@ const StateSheet = async function (doc) {
                 recovered: Number(row._rawData[3].replace(/[^0-9]/g, '')),
                 deaths: Number(row._rawData[4].replace(/[^0-9]/g, '')),
                 active: Number(row._rawData[5].replace(/[^0-9]/g, '')),
+                updated_at: update
             });
         }
     });
@@ -33,7 +35,7 @@ const StateSheet = async function (doc) {
         deaths: Number(total_row._rawData[4].replace(/[^0-9]/g, '')),
         active: Number(total_row._rawData[5].replace(/[^0-9]/g, '')),
         lethality_percentage: Number(country_cell.toPrecision(3).replace(/%/g, '')) * 100,
-        updatedAt: await UpdateDate(doc, 'B3'),
+        updated_at: update,
     };
 
     return data;
