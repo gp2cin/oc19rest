@@ -1,4 +1,5 @@
-const UpdateDate = require('./updateDate');
+const UpdateSheet = require('./updateSheet');
+const MortalitySheet = require('./mortalitySheet');
 
 const WorldSheet = async function (doc) {
   const sheet = doc.sheetsByIndex[4]; //Pega a tabela de casos por municipios de Pernambuco
@@ -10,7 +11,8 @@ const WorldSheet = async function (doc) {
     deaths: Number(last._rawData[2].replace(/[^0-9]/g, '')),
     new_cases: Number(last._rawData[3].replace(/[^0-9]/g, '')),
     new_deaths: Number(last._rawData[4].replace(/[^0-9]/g, '')),
-    updated_at: await UpdateDate(doc, 'B1'),
+    mortality_100k: await MortalitySheet(doc, 'B3'),
+    updated_at: await UpdateSheet(doc, 'B1'),
   };
 
   return data;
