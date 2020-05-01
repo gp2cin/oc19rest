@@ -1,7 +1,13 @@
+//Only official cases
+
 const mongoose = require('../../services/database');
 
 const CountrySchema = new mongoose.Schema(
     {
+        name: {
+            type: String,
+            required: true,
+        },
         confirmed: {
             type: Number,
             required: true,
@@ -10,11 +16,11 @@ const CountrySchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
-        newCases: {
+        new_cases: {
             type: Number,
             required: true,
         },
-        newDeaths: {
+        new_deaths: {
             type: Number,
             required: true,
         },
@@ -22,7 +28,11 @@ const CountrySchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
-        updatedAt: {
+        mortality_100k: {
+            type: Number,
+            required: true,
+        },
+        updated_at: {
             type: Date,
             required: true
         },

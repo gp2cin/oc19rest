@@ -1,9 +1,10 @@
+//Only official cases
+
 const mongoose = require('../../services/database');
 
-const StateSchema = new mongoose.Schema({
-  cities: {
-    type: [],
-    required: true,
+const CityOfficialCasesSchema = new mongoose.Schema({
+  name: {
+    type: String,
   },
   suspects: {
     type: Number,
@@ -25,17 +26,17 @@ const StateSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  lethality_percentage: {
-    type: Number,
-    required: true,
+  state: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'State'
   },
-  updatedAt: {
+  updated_at: {
     type: Date,
     required: true,
   },
 });
 
 module.exports = {
-  State: mongoose.model('State', StateSchema),
-  StateSchema,
+  CityOfficialCases: mongoose.model('CityOfficialCases', CityOfficialCasesSchema),
+  CityOfficialCasesSchema,
 };

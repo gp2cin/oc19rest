@@ -1,3 +1,4 @@
+//Only official cases
 const mongoose = require('../../services/database');
 
 const WorldSchema = new mongoose.Schema({
@@ -9,15 +10,19 @@ const WorldSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  newCases: {
+  new_cases: {
     type: Number,
     required: true,
   },
-  newDeaths: {
+  new_deaths: {
     type: Number,
     required: true,
   },
-  updatedAt: {
+  mortality_100k: {
+    type: Number,
+    required: true,
+  },
+  updated_at: {
     type: Date,
     required: true,
   },

@@ -7,10 +7,15 @@ const AuthController = require('../../app/controllers/AuthController');
 const PhoneController = require('../../app/controllers/PhoneController');
 const AddressController = require('../../app/controllers/AddressController');
 const WarningController = require('../../app/controllers/WarningController');
+<<<<<<< HEAD
 const ObserverReportController = require('../../app/controllers/ObserverReportController');
 const CaseController = require('../../app/controllers/CaseController');
+=======
+const OfficialCasesController = require('../../app/controllers/OfficialCasesController');
+const CrowdCasesController = require('../../app/controllers/CrowdCasesController')
+>>>>>>> feature/neighborhood_model
 
-const updateGoogleSpreadsheet = require('../../sheets/updateSpreadsheet');
+const updateGoogleSpreadsheet = require('../../googleSpreadsheets/updateSpreadsheet');
 
 var APIRoutes = function (passport) {
   updateGoogleSpreadsheet.start(); //atualização das planilhas do Google Spreadsheet
@@ -35,10 +40,18 @@ var APIRoutes = function (passport) {
   router.get('/warnings/map', WarningController.map);
   router.get('/warnings', WarningController.list);
 
+<<<<<<< HEAD
   router.post('/observer-report', ObserverReportController.store);
 
   router.get('/cases', CaseController.list);
   router.get('/cases/state', CaseController.find);
+=======
+  router.get('/cases/official', OfficialCasesController.list);
+  router.get('/cases/official/state', OfficialCasesController.find);
+
+  router.get('/cases/crowd', CrowdCasesController.list);
+  //router.get('/cases/official/state', OfficialCasesController.find);
+>>>>>>> feature/neighborhood_model
 
   router.use('/docs', swaggerUi.serve);
   router.get('/docs', swaggerUi.setup(swaggerDocument));
