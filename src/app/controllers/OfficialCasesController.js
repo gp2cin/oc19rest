@@ -5,17 +5,18 @@ const { CityOfficialCases } = require('../models/CityOfficialCases');
 
 const OfficialCasesController = {
     list: async (req, res) => {
+        const { estado, cidade } = req.query
         try {
             const world = await World.findOne().sort({ updated_at: -1 });
             const country = await Country.findOne({ name: 'brazil' });
-            const state = await State.findOne({ name: 'pernambuco' });
-            const cities = await CityOfficialCases.find({ state: state._id })
+            const state = await State.findOne({ name: estado.toLowerCase() });
+            const city = await CityOfficialCases.findOne({ name: cidade.toLowerCase() })
 
             res.status(200).send({
                 world,
                 country,
                 state,
-                cities
+                city
             });
         } catch (e) {
             res.status(400).send();
