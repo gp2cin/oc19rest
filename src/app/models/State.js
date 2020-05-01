@@ -1,3 +1,4 @@
+//Only official cases
 const mongoose = require('../../services/database');
 
 const StateSchema = new mongoose.Schema({

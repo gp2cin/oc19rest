@@ -1,7 +1,13 @@
+//Only official cases
+
 const mongoose = require('../../services/database');
 
 const CountrySchema = new mongoose.Schema(
     {
+        name: {
+            type: String,
+            required: true,
+        },
         confirmed: {
             type: Number,
             required: true,
