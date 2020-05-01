@@ -45,20 +45,18 @@ const ObserverReportController = {
                 let reportArray = [];
                 for (i = 0; i < Number(number_of_cases); i++) {
                     const case_individual = await Individual.create({});
-                    const case_individual_id = case_individual._id;
-                    reportArray = [...reportArray,
-                    {
+                    const observerReport = ObserverReport.create({
                         whistleblower: userId,
                         city: city,
                         neighborhood: neighborhood,
                         report_type: report_type,
                         case_type: case_type,
-                        case_individual: case_individual_id,
+                        case_individual: case_individual,
                         info_source: info_source,
                         info_source_link: info_source_link,
-                        general_comments: general_comments
-                    }
-                    ]
+                        general_comments: general_comments,
+                    });
+                    reportArray = [...reportArray, observerReport];
                 }
                 ObserverReport.collection.insertMany(reportArray, function (err, resp) {
                     if (err) {
@@ -78,30 +76,30 @@ const ObserverReportController = {
                     name: case_name,
                     gender: case_gender ? (['MALE', 'FEMALE'].includes(case_gender.toUpperCase()) ? case_gender.toUpperCase() : 'OTHER') : 'OTHER',
                     age: case_age,
-                    diseases: diseass
+                    diseases: diseass,
+                    death_date: moment(death_date),
                 });
-                const case_individual_id = case_individual._id;
-                report = {
+                const observerReport = ObserverReport.create({
                     whistleblower: userId,
                     city: city,
                     neighborhood: neighborhood,
                     report_type: report_type,
                     case_type: case_type,
-                    case_individual: case_individual_id,
-                    death_date: death_date,
+                    case_individual: case_individual,
                     household_contact_confirmed_case: household_contact_confirmed_case,
                     info_source: info_source,
                     info_source_link: info_source_link,
-                    general_comments: general_comments
-                }
-                ObserverReport.collection.insertOne(report, (err, docs) => {
+                    general_comments: general_comments,
+                });
+
+                ObserverReport.collection.insertOne(observerReport, (err, docs) => {
                     if (err) {
                         console.log(err);
                         res.status(400).send(err);
                     } else {
                         res.status(201).send({
                             message: 'Created successfully',
-                            report,
+                            observerReport,
                         });
                     }
                 });
@@ -109,6 +107,44 @@ const ObserverReportController = {
         } catch (error) {
             console.log(error);
             res.status(400).send(error);
+        }
+    },
+    list: async (req, res) => {
+        try {
+            lmt = 20;
+            ofst = 0; // tamanho da página
+            pg = 1;
+            const { page, limit, offset } = req.query;
+            if (limit) {
+                lmt = limit;
+            }
+            if (offset) {
+                ofst = offset;
+            }
+            if (page) {
+                ofst = (parseInt(page) - 1) * limit;
+            }
+
+            const count = await ObserverReport.count({
+                active: true,
+            });
+
+            const observerReports = await ObserverReport.find({
+                active: true,
+            })
+                .limit(lmt)
+                .skip(offset);
+            if (observerReports)
+                res.status(200).send({
+                    observerReports,
+                    pagination: {
+                        count,
+                        pages: Math.ceil(count / lmt),
+                        page: parseInt(page),
+                    },
+                });
+        } catch (e) {
+            res.status(400).send(e);
         }
     }
 }

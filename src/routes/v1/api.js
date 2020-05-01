@@ -37,6 +37,7 @@ var APIRoutes = function (passport) {
   router.get('/warnings', WarningController.list);
 
   router.post('/observer-report', ObserverReportController.store);
+  router.get('/observer-report', ObserverReportController.list);
 
   router.get('/cases/official', OfficialCasesController.list);
   router.get('/cases/official/state', OfficialCasesController.find);

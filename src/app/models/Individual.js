@@ -16,7 +16,7 @@ const IndividualSchema = new mongoose.Schema(
     birthdate: {
       type: Date,
     },
-    deathdate: {
+    death_date: {
       type: Date,
     },
     age: {

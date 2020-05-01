@@ -1,5 +1,5 @@
 const mongoose = require('../../services/database');
-const { DiseasesSchema } = require('./Diseases');
+const { IndividualSchema } = require('./Individual');
 
 const ObserverReportSchema = new mongoose.Schema({
     whistleblower: {
@@ -19,11 +19,7 @@ const ObserverReportSchema = new mongoose.Schema({
     case_type: {
         typr: String,
     },
-    case_individual: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Individual',
-        select: false,
-    },
+    case_individual: IndividualSchema,
     household_contact_confirmed_case: {
         type: Boolean,
     },
@@ -35,8 +31,16 @@ const ObserverReportSchema = new mongoose.Schema({
     },
     general_comments: {
         type: String,
-    }
-});
+    },
+    active: {
+        type: Boolean,
+        default: true,
+        select: false,
+    },
+}, {
+    timestamps: true,
+}
+);
 
 module.exports = {
     ObserverReportSchema,
