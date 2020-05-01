@@ -2,7 +2,7 @@ const UpdateSheet = require('./updateSheet');
 const MortalitySheet = require('./mortalitySheet');
 
 const WorldSheet = async function (doc) {
-  const sheet = doc.sheetsByIndex[4]; //Pega a tabela de casos por municipios de Pernambuco
+  const sheet = doc.sheetsByIndex[5]; //Pega a tabela de casos por municipios de Pernambuco
   const rows = await sheet.getRows();
   const last = rows[rows.length - 1]; //Pega a ultima linha da planilha, onde esta o total de casos
 

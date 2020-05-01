@@ -29,8 +29,10 @@ const AccessSpreadsheet = async function (id) {
       country,
       state,
     };
-  } else {
+  } else if (id === process.env.OCOVID19_SHEETS_URL) {
     return document
+  } else {
+    console.log('Impossible to get GoogleSpreadsheet')
   }
 
 

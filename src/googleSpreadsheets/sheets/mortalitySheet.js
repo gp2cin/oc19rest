@@ -5,7 +5,7 @@ const Mortality = async function (doc, cellIndex) {
         await sheet.loadCells();
         const cell = sheet.getCellByA1(cellIndex)
 
-        return Number(cell.value.toPrecision(3))
+        return Number(cell.value.toFixed(2))
     } catch (e) {
         console.log(e)
     }
