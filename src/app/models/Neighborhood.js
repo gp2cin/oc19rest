@@ -1,3 +1,4 @@
+//Only crowd cases
 const mongoose = require('../../services/database');
 
 const NeighborhoodSchema = new mongoose.Schema({
