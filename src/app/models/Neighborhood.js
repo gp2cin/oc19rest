@@ -22,7 +22,7 @@ const NeighborhoodSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'City'
     },
-    updated_at: {
+    updatedAt: {
         type: Date,
         required: true,
     },

@@ -32,7 +32,7 @@ const CountrySchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
-        updated_at: {
+        updatedAt: {
             type: Date,
             required: true
         },

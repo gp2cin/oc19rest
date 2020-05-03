@@ -7,7 +7,7 @@ const OfficialCasesController = {
     list: async (req, res) => {
         const { estado, cidade } = req.query
         try {
-            const world = await World.findOne().sort({ updated_at: -1 });
+            const world = await World.findOne().sort({ updatedAt: -1 });
             const country = await Country.findOne({ name: 'brazil' });
             const state = await State.findOne({ name: estado.toLowerCase() });
             const city = await CityOfficialCases.findOne({ name: cidade.toLowerCase() })

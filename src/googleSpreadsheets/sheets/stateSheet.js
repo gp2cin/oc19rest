@@ -24,7 +24,7 @@ const StateSheet = async function (doc) {
                 deaths: Number(row._rawData[4].replace(/[^0-9]/g, '')),
                 active: Number(row._rawData[5].replace(/[^0-9]/g, '')),
                 state: 'pernambuco',
-                updated_at: update
+                updatedAt: update
             });
         }
     });
@@ -39,7 +39,7 @@ const StateSheet = async function (doc) {
         active: Number(total_row._rawData[5].replace(/[^0-9]/g, '')),
         lethality_percentage: Number(country_cell.toPrecision(3).replace(/%/g, '')),
         mortality_100k: await MortalitySheet(doc, 'B1'),
-        updated_at: update,
+        updatedAt: update,
     };
 
     return data;

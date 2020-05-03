@@ -20,7 +20,7 @@ const CountrySheet = async function (doc) {
     new_deaths: Number(new_deaths.replace(/[^0-9]/g, '')),
     lethality_percentage: Number(lethality.replace(/%/g, '')) / 100,
     mortality_100k: await MortalitySheet(doc, 'B2'),
-    updated_at: await UpdateSheet(doc, 'B2'),
+    updatedAt: await UpdateSheet(doc, 'B2'),
   };
 
   return data;

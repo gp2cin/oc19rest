@@ -30,7 +30,7 @@ const CityOfficialCasesSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'State'
   },
-  updated_at: {
+  updatedAt: {
     type: Date,
     required: true,
   },

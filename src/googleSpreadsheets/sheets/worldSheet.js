@@ -12,7 +12,7 @@ const WorldSheet = async function (doc) {
     new_cases: Number(last._rawData[3].replace(/[^0-9]/g, '')),
     new_deaths: Number(last._rawData[4].replace(/[^0-9]/g, '')),
     mortality_100k: await MortalitySheet(doc, 'B3'),
-    updated_at: await UpdateSheet(doc, 'B1'),
+    updatedAt: await UpdateSheet(doc, 'B1'),
   };
 
   return data;
