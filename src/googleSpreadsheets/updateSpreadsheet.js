@@ -133,9 +133,9 @@ async function writeCitiesData(array, sheets) {
   }
 }
 
-//atualiza a cada dia
+//atualiza a cada dia ou a cada hora
 const update = cron.schedule(
-  '0 * * * * *',
+  '0 * * * * *', //lembrar de alterar: att por dia - '0 0 0 * * *' ou  att por hora - '0 0 * * * *'
   async () => {
     const ocovid_doc = await AccessSpreadsheet(process.env.OCOVID19_SHEETS_URL)
     const irrd_doc = await AccessSpreadsheet(process.env.IRRD_SHEETS_URL);
