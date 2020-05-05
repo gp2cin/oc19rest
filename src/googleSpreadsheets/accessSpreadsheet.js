@@ -7,9 +7,9 @@ const StateSheet = require('./sheets/stateSheet');
 const WorldSheet = require('./sheets/worldSheet');
 const CountrySheet = require('./sheets/countrySheet');
 
-const AccessSpreadsheet = async function (id) {
+const AccessSpreadsheet = async function () {
   //peganda a planilha usando a chave na URL
-  const document = new GoogleSpreadsheet(id);
+  const document = new GoogleSpreadsheet(process.env.IRRD_SHEETS_URL);
 
   //Autenticação
   await document.useServiceAccountAuth({
@@ -19,23 +19,15 @@ const AccessSpreadsheet = async function (id) {
 
   await document.loadInfo();
 
-  if (id == process.env.IRRD_SHEETS_URL) {
-    const world = await WorldSheet(document);
-    const country = await CountrySheet(document);
-    const state = await StateSheet(document);
+  const world = await WorldSheet(document);
+  const country = await CountrySheet(document);
+  const state = await StateSheet(document);
 
-    return {
-      world,
-      country,
-      state,
-    };
-  } else if (id === process.env.OCOVID19_SHEETS_URL) {
-    return document
-  } else {
-    console.log('Impossible to get GoogleSpreadsheet')
-  }
-
-
+  return {
+    world,
+    country,
+    state,
+  };
 };
 
 module.exports = AccessSpreadsheet;
