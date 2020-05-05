@@ -1,15 +1,14 @@
-const { CityCrowdCases } = require('../models/CityCrowdCases')
-const { Neighborhood } = require('../models/Neighborhood')
+const { Cities } = require('../models/Cities')
+//const { Neighborhood } = require('../models/Neighborhood')
 
 const CrowdCasesController = {
     list: async (req, res) => {
         try {
-            const cities = await CityCrowdCases.find()
-            const neighborhood = await Neighborhood.find()
+            const cities = await Cities.find()
+            //const neighborhood = await Neighborhood.find()
 
             res.status(200).send({
                 cities,
-                neighborhood
             });
         } catch (e) {
             res.status(400).send();
