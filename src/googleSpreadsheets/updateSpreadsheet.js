@@ -1,150 +1,121 @@
 const cron = require('node-cron');
 const moment = require('moment');
 
-const dotenv = require('dotenv');
-dotenv.config();
-
 const AccessSpreadsheet = require('./accessSpreadsheet');
 
 const { World } = require('../app/models/World');
 const { State } = require('../app/models/State');
 const { Country } = require('../app/models/Country');
-const { CityOfficialCases } = require('../app/models/CityOfficialCases')
+const { Cities } = require('../app/models/Cities');
 
-async function updateWorldData(irrd, ocovid) {
-  let sheet = irrd.world;
+async function updateWorldData(sheets) {
+  let sheet = sheets.world;
   let model = await World.find();
+  let update = moment(sheet.updatedAt).format('DD/MM/YYYY');
 
   try {
     if (!model) {
       const record = await World.create(sheet);
       await record.save();
-
-      sheet.updatedAt = moment(sheet.updatedAt).format('DD/MM/YYYY')
-      console.log(`Google Spreadsheet: World sheet updated at ${sheet.updatedAt}`);
+      console.log(`Google Spreadsheet: World sheet created at ${update}`);
     } else {
-      let ocovid_sheet = ocovid.sheetsByIndex[0];
       model = await World.findOne({ updatedAt: sheet.updatedAt })
       if (!model) {
         const record = await World.create(sheet);
         await record.save();
-
-        sheet.updatedAt = moment(sheet.updatedAt).format('DD/MM/YYYY')
-        const row = await ocovid_sheet.addRow(sheet)
-        await row.save()
-
-        console.log(`Google Spreadsheet: World data updated at ${sheet.updatedAt}`);
-      }
-    }
+        console.log(`Google Spreadsheet: World data updated at ${update}`);
+      };
+    };
   } catch (e) {
-    console.log(e)
-  }
-}
+    console.log(e);
+  };
+};
 
-async function updateCountryData(irrd, ocovid) {
-  let sheet = irrd.country;
+async function updateCountryData(sheets) {
+  let sheet = sheets.country;
   let model = await Country.findOne();
+  let update = moment(sheet.updatedAt).format('DD/MM/YYYY');
 
   try {
     if (!model) {
       const record = await Country.create(sheet);
       await record.save();
 
-      sheet.updatedAt = moment(sheet.updatedAt).format('DD/MM/YYYY')
-
-      console.log(`Google Spreadsheet: Country data updated at ${sheet.updatedAt}`);
+      console.log(`Google Spreadsheet: Country data created at ${update}`);
     } else {
-      let ocovid_sheet = ocovid.sheetsByIndex[1];
-      model = await Country.findOne({ updatedAt: sheet.updatedAt })
+      model = await Country.findOne({ updatedAt: sheet.updatedAt });
       if (!model) {
-        await Country.updateOne({ name: sheet.name }, sheet)
-
-        sheet.updatedAt = moment(sheet.updatedAt).format('DD/MM/YYYY')
-        const row = await ocovid_sheet.addRow(sheet)
-        await row.save()
-
-        console.log(`Google Spreadsheet: Country data updated at ${sheet.updatedAt}`);
-      }
-    }
+        await Country.updateOne({ name: sheet.name }, sheet);
+        console.log(`Google Spreadsheet: Country data updated at ${update}`);
+      };
+    };
   } catch (e) {
-    console.log(e)
-  }
-}
+    console.log(e);
+  };
+};
 
-async function updateStateData(irrd, ocovid) {
-  let sheet = irrd.state;
-  let { cities } = sheet
+async function updateStateData(sheets) {
+  let sheet = sheets.state;
   let model = await State.findOne();
+  let update = moment(sheet.updatedAt).format('DD/MM/YYYY');
 
   try {
-    if (!model) {
+    if (model) {
+      model = await State.findOne({ updatedAt: sheet.updatedAt });
+      await updateCitiesData(sheet);
+      if (!model) {
+        await State.updateOne({ name: sheet.name }, sheet);
+        console.log(`Google Spreadsheet: State data updated at ${update}`);
+      };
+    } else {
       const record = await State.create(sheet);
       await record.save();
-
-      for (let c in cities) {
-        cities[c].state = record._id
-      }
-      await CityOfficialCases.insertMany(cities)
-
-      sheet.updatedAt = moment(sheet.updatedAt).format('DD/MM/YYYY')
-      console.log(`Google Spreadsheet: State data updated at ${sheet.updatedAt}`);
-    } else {
-      let ocovid_sheet = ocovid.sheetsByIndex[2];
-      model = await State.findOne({ updatedAt: sheet.updatedAt })
-      if (!model) {
-        await State.updateOne({ name: sheet.name }, sheet)
-        await writeCitiesData(cities, ocovid)
-
-        for (let c in cities) {
-          await CityOfficialCases.updateOne({ name: cities[c].name }, {
-            suspects: cities[c].suspects,
-            confirmed: cities[c].confirmed,
-            recovered: cities[c].recovered,
-            deaths: cities[c].deaths,
-            active: cities[c].active,
-            updatedAt: cities[c].updatedAt,
-          })
-        }
-
-        sheet.updatedAt = moment(sheet.updatedAt).format('DD/MM/YYYY')
-        console.log(`Google Spreadsheet: State data updated at ${sheet.updatedAt}`);
-
-        const row = await ocovid_sheet.addRow(sheet)
-        await row.save()
-      }
-    }
+      await updateCitiesData(sheet);
+      console.log(`Google Spreadsheet: State data created at ${update}`);
+    };
   } catch (e) {
-    console.log(e)
-  }
-}
+    console.log(e);
+  };
+};
 
-async function writeCitiesData(array, sheets) {
-  let cities = array.slice()
-  let sheet = sheets.sheetsByIndex[3];
+async function updateCitiesData(sheet) {
+  const { _id } = await State.findOne({ name: sheet.name });
+  let model = await Cities.findOne();
+  let cities = sheet.cities;
+  let update = moment(sheet.updatedAt).format('DD/MM/YYYY');
+
   try {
-    for (let c in cities) {
-      cities[c].updatedAt = moment(cities[c].updatedAt).format('DD/MM/YYYY')
+    if (model) {
+      for (let c in cities) {
+        const { name, official_cases, updatedAt } = cities[c];
+        await Cities.updateOne({ name: name }, {
+          official_cases,
+          updatedAt
+        });
+      };
+      console.log(`Google Spreadsheet: Cities data updated at ${update}`);
+    } else {
+      cities.map(city => {
+        city.state = _id;
+      });
+      await Cities.insertMany(cities);
+      console.log(`Google Spreadsheet: Cities data created at ${update}`);
     }
-
-    await sheet.addRows(cities)
-
   } catch (e) {
-    console.log(e)
-  }
-}
+    console.log(e);
+  };
+};
 
 //atualiza a cada dia ou a cada hora
 const update = cron.schedule(
   '0 * * * * *', //lembrar de alterar: att por dia - '0 0 0 * * *' ou  att por hora - '0 0 * * * *'
   async () => {
-    const ocovid_doc = await AccessSpreadsheet(process.env.OCOVID19_SHEETS_URL)
-    const irrd_doc = await AccessSpreadsheet(process.env.IRRD_SHEETS_URL);
+    const irrd_doc = await AccessSpreadsheet();
 
     try {
-      await updateWorldData(irrd_doc, ocovid_doc)
-      await updateCountryData(irrd_doc, ocovid_doc)
-      await updateStateData(irrd_doc, ocovid_doc)
-
+      await updateWorldData(irrd_doc);
+      await updateCountryData(irrd_doc);
+      await updateStateData(irrd_doc);
     } catch (e) {
       console.log(e);
     }
@@ -156,4 +127,3 @@ const update = cron.schedule(
 );
 
 module.exports = update;
-
