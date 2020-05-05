@@ -1,6 +1,20 @@
 //Only crowd cases
 const mongoose = require('../../services/database');
-const { PolygonSchema } = require('./utils/PolygonSchema')
+
+const GeoSchema = new mongoose.Schema(
+    {
+        type: {
+            type: String,
+            enum: ['Polygon', 'MultiPolygon'],
+            default: 'Polygon',
+            require: true
+        },
+        coordinates: {
+            type: [],
+            required: true
+        }
+    }
+);
 
 const NeighborhoodSchema = new mongoose.Schema(
     {
@@ -28,7 +42,7 @@ const NeighborhoodSchema = new mongoose.Schema(
             type: Date,
             required: true
         },
-        location: PolygonSchema,
+        location: GeoSchema,
     }
 );
 
