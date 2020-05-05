@@ -18,11 +18,13 @@ const StateSheet = async function (doc) {
         if (!(row._rawData[0] === '' || row._rawData[0] === 'Total' || row._rawData[0] === 'Outro Pais' || row._rawData[0] === 'Outro Estado')) {
             cities.push({
                 name: row._rawData[0].toLowerCase(),
-                suspects: Number(row._rawData[1].replace(/[^0-9]/g, '')),
-                confirmed: Number(row._rawData[2].replace(/[^0-9]/g, '')),
-                recovered: Number(row._rawData[3].replace(/[^0-9]/g, '')),
-                deaths: Number(row._rawData[4].replace(/[^0-9]/g, '')),
-                active: Number(row._rawData[5].replace(/[^0-9]/g, '')),
+                official_cases: {
+                    suspects: Number(row._rawData[1].replace(/[^0-9]/g, '')),
+                    confirmed: Number(row._rawData[2].replace(/[^0-9]/g, '')),
+                    recovered: Number(row._rawData[3].replace(/[^0-9]/g, '')),
+                    deaths: Number(row._rawData[4].replace(/[^0-9]/g, '')),
+                    active: Number(row._rawData[5].replace(/[^0-9]/g, '')),
+                },
                 state: 'pernambuco',
                 updatedAt: update
             });
