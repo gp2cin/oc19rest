@@ -18,6 +18,10 @@ const GeoSchema = new mongoose.Schema(
 
 const NeighborhoodSchema = new mongoose.Schema(
     {
+        name_ca: {
+            type: String,
+            require: true
+        },
         name: {
             type: String,
             require: true
