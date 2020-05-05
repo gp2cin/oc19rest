@@ -12,9 +12,11 @@ const OfficialCasesController = require('../../app/controllers/OfficialCasesCont
 const CrowdCasesController = require('../../app/controllers/CrowdCasesController')
 
 const updateGoogleSpreadsheet = require('../../googleSpreadsheets/updateSpreadsheet');
+const insertNeighborhoods = require('../../neighborhoods/insert')
 
 var APIRoutes = function (passport) {
   updateGoogleSpreadsheet.start(); //atualização das planilhas do Google Spreadsheet
+  insertNeighborhoods() //inserir os bairros de recife
 
   router.post('/signin', AuthController.signIn);
   router.post('/signup', AuthController.signUp);
@@ -43,7 +45,6 @@ var APIRoutes = function (passport) {
   router.get('/cases/official/state', OfficialCasesController.find);
 
   router.get('/cases/crowd', CrowdCasesController.list);
-  //router.get('/cases/crowd/city', OfficialCasesController.find);
 
   router.use('/docs', swaggerUi.serve);
   router.get('/docs', swaggerUi.setup(swaggerDocument));
