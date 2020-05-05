@@ -62,8 +62,8 @@ async function updateStateData(sheets) {
   try {
     if (model) {
       model = await State.findOne({ updatedAt: sheet.updatedAt });
-      await updateCitiesData(sheet);
       if (!model) {
+        await updateCitiesData(sheet);
         await State.updateOne({ name: sheet.name }, sheet);
         console.log(`Google Spreadsheet: State data updated at ${update}`);
       };
