@@ -4,6 +4,7 @@ const { ObserverReport } = require('../models/ObserverReport')
 const { User } = require('../models/User');
 const { Individual } = require('../models/Individual');
 const { Diseases } = require('../models/Diseases');
+const { Neighborhood } = require('../models/Neighborhood');
 
 const ObserverReportController = {
     store: async (req, res) => {
@@ -13,6 +14,7 @@ const ObserverReportController = {
                 observer_email,
                 city,
                 neighborhood,
+                neighborhood_name,
                 report_type,
                 case_type,
                 death_date,
@@ -40,6 +42,17 @@ const ObserverReportController = {
                 userId = searchUser._id;
             }
 
+            //Searching neighborhood
+            let neighborhoodId = undefined;
+            if (neighborhood) {
+                const searchNeighborhood = await Neighborhood.findOne({ _id: neighborhood });
+                if (searchNeighborhood) {
+                    neighborhoodId = searchNeighborhood._id;
+                } else {
+                    console.log('Neighborhood not found');
+                }
+            }
+
             if (Number(number_of_cases) == NaN) res.status(400).send({ message: 'Age is not a number.' });
             if (Number(number_of_cases) != 0) {
                 let reportArray = [];
@@ -48,7 +61,8 @@ const ObserverReportController = {
                     const observerReport = ObserverReport.create({
                         whistleblower: userId,
                         city: city,
-                        neighborhood: neighborhood,
+                        neighborhood: neighborhoodId,
+                        neighborhood_name: neighborhood_name,
                         report_type: report_type,
                         case_type: case_type,
                         case_individual: case_individual,
@@ -82,7 +96,8 @@ const ObserverReportController = {
                 const observerReport = ObserverReport.create({
                     whistleblower: userId,
                     city: city,
-                    neighborhood: neighborhood,
+                    neighborhood: neighborhoodId,
+                    neighborhood_name: neighborhood_name,
                     report_type: report_type,
                     case_type: case_type,
                     case_individual: case_individual,

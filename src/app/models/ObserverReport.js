@@ -1,5 +1,6 @@
 const mongoose = require('../../services/database');
 const { IndividualSchema } = require('./Individual');
+const { Neighborhood } = require('../models/Neighborhood');
 
 const ObserverReportSchema = new mongoose.Schema({
     whistleblower: {
@@ -11,6 +12,11 @@ const ObserverReportSchema = new mongoose.Schema({
         type: String,
     },
     neighborhood: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Neighborhood',
+        select: false,
+    },
+    neighborhood_name: {
         type: String,
     },
     report_type: {
