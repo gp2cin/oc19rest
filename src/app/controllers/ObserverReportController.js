@@ -86,13 +86,23 @@ const ObserverReportController = {
                 });
             } else {
                 const diseass = await Diseases.create(diseases);
-                const case_individual = await Individual.create({
-                    name: case_name,
-                    gender: case_gender ? (['MALE', 'FEMALE'].includes(case_gender.toUpperCase()) ? case_gender.toUpperCase() : 'OTHER') : 'OTHER',
-                    age: case_age,
-                    diseases: diseass,
-                    death_date: moment(death_date),
-                });
+                let case_individual = undefined;
+                if (death_date !== '') {
+                    case_individual = await Individual.create({
+                        name: case_name,
+                        gender: case_gender ? (['MALE', 'FEMALE'].includes(case_gender.toUpperCase()) ? case_gender.toUpperCase() : 'OTHER') : 'OTHER',
+                        age: case_age,
+                        diseases: diseass,
+                        death_date: moment(death_date),
+                    });
+                } else {
+                    case_individual = await Individual.create({
+                        name: case_name,
+                        gender: case_gender ? (['MALE', 'FEMALE'].includes(case_gender.toUpperCase()) ? case_gender.toUpperCase() : 'OTHER') : 'OTHER',
+                        age: case_age,
+                        diseases: diseass,
+                    });
+                }
                 const observerReport = ObserverReport.create({
                     whistleblower: userId,
                     city: city,
@@ -109,6 +119,7 @@ const ObserverReportController = {
 
                 ObserverReport.collection.insertOne(observerReport, (err, docs) => {
                     if (err) {
+                        console.log('AQUI');
                         console.log(err);
                         res.status(400).send(err);
                     } else {
