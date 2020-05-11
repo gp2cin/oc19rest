@@ -3,38 +3,28 @@ const { features } = file
 const moment = require('moment');
 const { City } = require('../../app/models/City');
 const { State } = require('../../app/models/State');
-
-const formatName = require('../utils/formatName');
-const sortArrayByName = require('../utils/sortArrayByName');
+const formatName = require('../../utils/formatName');
 
 module.exports = async () => {
-    let city_record = await City.findOne()
     try {
-        if (!city_record) {
-            let sorted_array = sortArrayByName(features)
+        const city_docs = await City.find();
 
-            let array_cities = [];
+        if (city_docs.length == []) {
             const { _id } = await State.findOne({ name: 'pernambuco' })
-            for (let f in sorted_array) {
-                const { geometry, properties } = sorted_array[f]
-                array_cities.push({
+            for (let f in features) {
+                const { geometry, properties } = features[f];
+                const record = await City.create({
                     name_ca: formatName(properties.name_ca),
                     name: properties.name,
                     state: _id,
-                    geometry: geometry
+                    location: geometry
                 });
+                await record.save()
+                console.log(record)
             };
-
-            for (let c in array_cities) {
-                const record = await City.create(array_cities[c]);
-                record.save()
-            }
-
             console.log(`Cities created at ${moment().format('DD/MM/YYYY')}`);
-            //console.log(array_cities[0])
-        } else {
-            console.log('ok')
         }
+
     } catch (error) {
         console.log(error)
     }
