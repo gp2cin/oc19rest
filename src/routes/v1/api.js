@@ -17,8 +17,9 @@ const insertCities = require('../../geodata/cities')
 
 var APIRoutes = function (passport) {
   //updateGoogleSpreadsheet.start(); //atualização das planilhas do Google Spreadsheet
-  insertNeighborhoods() //inserir os bairros de recife
-  //insertCities()
+  insertCities()
+  //insertNeighborhoods() //inserir os bairros de recife
+
 
   router.post('/signin', AuthController.signIn);
   router.post('/signup', AuthController.signUp);
