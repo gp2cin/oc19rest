@@ -4,27 +4,19 @@ const { PolygonSchema } = require('./utils/Polygon')
 
 const NeighborhoodSchema = new mongoose.Schema(
     {
-        type: {
+        name_ca: {
             type: String,
-            required: true
+            require: true
         },
-        properties: {
-            name_ca: {
-                type: String,
-                require: true
-            },
-            name: {
-                type: String,
-                require: true
-            },
-            city: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Cities'
-            },
+        name: {
+            type: String,
+            require: true
+        },
+        city: {
+            type: String
         },
         geometry: {
             type: PolygonSchema,
-            index: '2dsphere'
         }
     }
 );
