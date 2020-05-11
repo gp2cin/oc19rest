@@ -1,18 +1,8 @@
-//Only official cases
-
 const mongoose = require('../../services/database');
 const { PolygonSchema } = require('./utils/Polygon');
 
-const CitySchema = new mongoose.Schema({
-  type: {
-    type: String,
-    required: true
-  },
-  properties: {
-    id_city: {
-      type: Number,
-      require: true,
-    },
+const CitySchema = new mongoose.Schema(
+  {
     name_ca: {
       type: String,
       required: true
@@ -25,12 +15,11 @@ const CitySchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'State'
     },
-  },
-  geometry: {
-    type: PolygonSchema,
-    index: '2dsphere'
+    geometry: {
+      type: PolygonSchema,
+    }
   }
-});
+);
 
 module.exports = {
   City: mongoose.model('City', CitySchema),
