@@ -5,18 +5,20 @@ const CitySchema = new mongoose.Schema(
   {
     name_ca: {
       type: String,
-      required: true
+      required: true,
+      lowercase: true
     },
     name: {
       type: String,
-      require: true
+      required: true
     },
     state: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'State'
     },
-    geometry: {
+    location: {
       type: PolygonSchema,
+      index: '2dsphere'
     }
   }
 );

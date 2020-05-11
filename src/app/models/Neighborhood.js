@@ -6,17 +6,19 @@ const NeighborhoodSchema = new mongoose.Schema(
     {
         name_ca: {
             type: String,
-            require: true
+            required: true
         },
         name: {
             type: String,
-            require: true
+            required: true
         },
         city: {
-            type: String
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'City'
         },
-        geometry: {
+        location: {
             type: PolygonSchema,
+            index: '2dsphere'
         }
     }
 );
