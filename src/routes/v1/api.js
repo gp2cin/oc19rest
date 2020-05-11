@@ -8,8 +8,8 @@ const PhoneController = require('../../app/controllers/PhoneController');
 const AddressController = require('../../app/controllers/AddressController');
 const WarningController = require('../../app/controllers/WarningController');
 const ObserverReportController = require('../../app/controllers/ObserverReportController');
-const OfficialCasesController = require('../../app/controllers/OfficialCasesController');
-const CrowdCasesController = require('../../app/controllers/CrowdCasesController')
+//const OfficialCasesController = require('../../app/controllers/OfficialCasesController');
+//const CrowdCasesController = require('../../app/controllers/CrowdCasesController')
 
 //const updateGoogleSpreadsheet = require('../../googleSpreadsheets/updateSpreadsheet');
 const insertNeighborhoods = require('../../geodata/neighborhoods')
