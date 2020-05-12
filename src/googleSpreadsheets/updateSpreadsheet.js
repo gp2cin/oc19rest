@@ -4,9 +4,9 @@ const moment = require('moment');
 const AccessSpreadsheet = require('./accessSpreadsheet');
 
 const { World } = require('../app/models/World');
-const { State } = require('../app/models/State');
+const { City } = require('../app/models/City');
 const { Country } = require('../app/models/Country');
-const { Cities } = require('../app/models/Cities');
+const { CityOfficialCases } = require('../app/models/CityOfficialCases');
 
 async function updateWorldData(sheets) {
   let sheet = sheets.world;
@@ -79,26 +79,24 @@ async function updateStateData(sheets) {
 };
 
 async function updateCitiesData(sheet) {
-  const { _id } = await State.findOne({ name: sheet.name });
-  let model = await Cities.findOne();
+  let model = await CityOfficialCases.findOne();
   let cities = sheet.cities;
   let update = moment(sheet.updatedAt).format('DD/MM/YYYY');
 
   try {
+    cities.map(elem => {
+      const { _id } = await City.findOne({
+        properties: {
+          name_ca: elem.city
+        }
+      });
+      city.city = _id;
+    });
     if (model) {
-      for (let c in cities) {
-        const { name, official_cases, updatedAt } = cities[c];
-        await Cities.updateOne({ name: name }, {
-          official_cases,
-          updatedAt
-        });
-      };
+      await CityOfficialCases.updateMany(cities)
       console.log(`Google Spreadsheet: Cities data updated at ${update}`);
     } else {
-      cities.map(city => {
-        city.state = _id;
-      });
-      await Cities.insertMany(cities);
+      await CityOfficialCases.insertMany(cities);
       console.log(`Google Spreadsheet: Cities data created at ${update}`);
     }
   } catch (e) {

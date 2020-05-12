@@ -1,52 +1,21 @@
 //Only crowd cases
 const mongoose = require('../../services/database');
-
-const GeoSchema = new mongoose.Schema(
-    {
-        type: {
-            type: String,
-            enum: ['Polygon', 'MultiPolygon'],
-            default: 'Polygon',
-            require: true
-        },
-        coordinates: {
-            type: [],
-            required: true
-        }
-    }
-);
+const { PolygonSchema } = require('./utils/Polygon')
 
 const NeighborhoodSchema = new mongoose.Schema(
     {
         name_ca: {
             type: String,
-            require: true
+            required: true
         },
         name: {
             type: String,
-            require: true
-        },
-        suspects: {
-            type: Number,
-            required: true
-        },
-        confirmed: {
-            type: Number,
-            required: true
-        },
-        deaths: {
-            type: Number,
             required: true
         },
         city: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'City'
+            type: String
         },
-        updatedAt: {
-            type: Date,
-            required: true
-        },
-        location: GeoSchema,
+        location: PolygonSchema
     }
 );
 

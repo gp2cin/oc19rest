@@ -1,5 +1,6 @@
 const UpdateSheet = require('./updateSheet');
 const MortalitySheet = require('./mortalitySheet');
+const formatName = require('../../utils/formatName')
 
 const StateSheet = async function (doc) {
     const state_sheet = doc.sheetsByIndex[7]; //Pega a tabela de casos por municipios de Pernambuco
@@ -12,20 +13,17 @@ const StateSheet = async function (doc) {
     const country_cell = country_sheet.getCellByA1('D18').value
 
     //Pega os dados dos municipios
-    let cities = [];
+    let cities_cases = [];
 
     state_rows.forEach((row) => {
         if (!(row._rawData[0] === '' || row._rawData[0] === 'Total' || row._rawData[0] === 'Outro Pais' || row._rawData[0] === 'Outro Estado')) {
-            cities.push({
-                name: row._rawData[0].toLowerCase(),
-                official_cases: {
-                    suspects: Number(row._rawData[1].replace(/[^0-9]/g, '')),
-                    confirmed: Number(row._rawData[2].replace(/[^0-9]/g, '')),
-                    recovered: Number(row._rawData[3].replace(/[^0-9]/g, '')),
-                    deaths: Number(row._rawData[4].replace(/[^0-9]/g, '')),
-                    active: Number(row._rawData[5].replace(/[^0-9]/g, '')),
-                },
-                state: 'pernambuco',
+            cities_cases.push({
+                city: formatName(row._rawData[0]),
+                suspects: Number(row._rawData[1].replace(/[^0-9]/g, '')),
+                confirmed: Number(row._rawData[2].replace(/[^0-9]/g, '')),
+                recovered: Number(row._rawData[3].replace(/[^0-9]/g, '')),
+                deaths: Number(row._rawData[4].replace(/[^0-9]/g, '')),
+                active: Number(row._rawData[5].replace(/[^0-9]/g, '')),
                 updatedAt: update
             });
         }
@@ -33,7 +31,7 @@ const StateSheet = async function (doc) {
 
     const data = {
         name: 'pernambuco',
-        cities: cities,
+        cities_cases: cities_cases,
         suspects: Number(total_row._rawData[1].replace(/[^0-9]/g, '')),
         confirmed: Number(total_row._rawData[2].replace(/[^0-9]/g, '')),
         recovered: Number(total_row._rawData[3].replace(/[^0-9]/g, '')),
