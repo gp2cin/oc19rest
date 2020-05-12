@@ -13,13 +13,9 @@ const NeighborhoodSchema = new mongoose.Schema(
             required: true
         },
         city: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'City'
+            type: String
         },
-        location: {
-            type: PolygonSchema,
-            index: '2dsphere'
-        }
+        location: PolygonSchema
     }
 );
 

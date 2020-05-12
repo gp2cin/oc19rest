@@ -13,13 +13,9 @@ const CitySchema = new mongoose.Schema(
       required: true
     },
     state: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'State'
+      type: String
     },
-    location: {
-      type: PolygonSchema,
-      index: '2dsphere'
-    }
+    location: PolygonSchema
   }
 );
 
