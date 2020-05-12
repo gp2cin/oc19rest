@@ -8,10 +8,7 @@ const PolygonSchema = new mongoose.Schema(
             default: 'Polygon',
             require: true
         },
-        coordinates: {
-            type: [],
-            required: true
-        }
+        coordinates: [mongoose.Schema.Types.Mixed]
     }
 );
 
