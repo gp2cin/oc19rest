@@ -2,6 +2,8 @@ const bcrypt = require('bcryptjs');
 const { User } = require('../models/User');
 // const mailer = require('../../modules/mailer');
 const { Individual } = require('../models/Individual');
+const { Role } = require('../models/Role');
+const { Privilege } = require('../models/Privilege');
 const { Address } = require('../models/Address');
 const { Phones } = require('../models/Phone');
 const authMiddleware = require('../middleware/auth');
@@ -33,7 +35,6 @@ class AuthController {
    * Function to register and get token
    */
   async signUp(req, res) {
-    console.log(req.body)
     const { password, first_name, last_name, email, gender, birthdate } = req.body;
     try {
       if (!(password || first_name || email)) {
@@ -43,7 +44,14 @@ class AuthController {
       if (searchUser) {
         res.status(400).send({ error: 'User alredy exists.' });
       } else {
-        const user = await User.create({ password, first_name, last_name, email, active: true });
+        const privilege = await Privilege.create({
+          name: 'COMMON',
+        });
+        const role = await Role.create({
+          name: 'COMMON',
+          privileges: [privilege],
+        });
+        const user = await User.create({ password, first_name, last_name, role, email, active: true });
         if (user) {
           const individual = await Individual.create({
             gender: gender ? (['MALE', 'FEMALE'].includes(gender.toUpperCase()) ? gender.toUpperCase() : 'OTHER') : 'OTHER',
