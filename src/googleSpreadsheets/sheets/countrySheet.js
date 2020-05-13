@@ -13,7 +13,7 @@ const CountrySheet = async function (doc) {
   const new_deaths = world_sheet.getCellByA1('E28').formattedValue;
 
   const data = {
-    name: 'brazil',
+    name: country_sheet.title,
     confirmed: Number(last._rawData[1].replace(/[^0-9]/g, '')),
     deaths: Number(last._rawData[2].replace(/[^0-9]/g, '')),
     new_cases: Number(new_cases.replace(/[^0-9]/g, '')),

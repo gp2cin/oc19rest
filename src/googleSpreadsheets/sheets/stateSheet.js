@@ -19,28 +19,27 @@ const StateSheet = async function (doc) {
         if (!(row._rawData[0] === '' || row._rawData[0] === 'Total' || row._rawData[0] === 'Outro Pais' || row._rawData[0] === 'Outro Estado')) {
             cities_cases.push({
                 city: formatName(row._rawData[0]),
-                suspects: Number(row._rawData[1].replace(/[^0-9]/g, '')),
-                confirmed: Number(row._rawData[2].replace(/[^0-9]/g, '')),
-                recovered: Number(row._rawData[3].replace(/[^0-9]/g, '')),
-                deaths: Number(row._rawData[4].replace(/[^0-9]/g, '')),
-                active: Number(row._rawData[5].replace(/[^0-9]/g, '')),
+                confirmed: Number(row._rawData[1].replace(/[^0-9]/g, '')),
+                recovered: Number(row._rawData[2].replace(/[^0-9]/g, '')),
+                deaths: Number(row._rawData[3].replace(/[^0-9]/g, '')),
+                active: Number(row._rawData[4].replace(/[^0-9]/g, '')),
                 updatedAt: update
             });
         }
     });
 
     const data = {
-        name: 'pernambuco',
+        name: state_sheet.title,
         cities_cases: cities_cases,
-        suspects: Number(total_row._rawData[1].replace(/[^0-9]/g, '')),
-        confirmed: Number(total_row._rawData[2].replace(/[^0-9]/g, '')),
-        recovered: Number(total_row._rawData[3].replace(/[^0-9]/g, '')),
-        deaths: Number(total_row._rawData[4].replace(/[^0-9]/g, '')),
-        active: Number(total_row._rawData[5].replace(/[^0-9]/g, '')),
+        confirmed: Number(total_row._rawData[1].replace(/[^0-9]/g, '')),
+        recovered: Number(total_row._rawData[2].replace(/[^0-9]/g, '')),
+        deaths: Number(total_row._rawData[3].replace(/[^0-9]/g, '')),
+        active: Number(total_row._rawData[4].replace(/[^0-9]/g, '')),
         lethality_percentage: Number(country_cell.toPrecision(3).replace(/%/g, '')),
         mortality_100k: await MortalitySheet(doc, 'B1'),
         updatedAt: update,
     };
+
 
     return data;
 };

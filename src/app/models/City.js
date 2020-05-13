@@ -13,7 +13,8 @@ const CitySchema = new mongoose.Schema(
       required: true
     },
     state: {
-      type: String
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'State',
     },
     location: PolygonSchema
   }

@@ -13,7 +13,8 @@ const NeighborhoodSchema = new mongoose.Schema(
             required: true
         },
         city: {
-            type: String
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'City',
         },
         location: PolygonSchema
     }

@@ -12,15 +12,15 @@ module.exports = async () => {
         if (!neighbor_docs == []) {
             for (let f in features) {
                 const { geometry, properties } = features[f]
-                //const { _id } = await City.findOne({ name_ca: properties.name_ca });
+                const { _id } = await City.findOne({ name_ca: 'recife' });
                 const record = await Neighborhood.create({
                     name_ca: formatName(properties.name_ca),
                     name: properties.name,
-                    city: 'recife',
+                    city: _id,
                     location: geometry
                 });
                 await record.save()
-                await Neighborhood.createIndexes({ location: '2dsphere' })
+
             };
             console.log(`Recife neighborhoods created at ${moment().format('DD/MM/YYYY')}`);
         }
