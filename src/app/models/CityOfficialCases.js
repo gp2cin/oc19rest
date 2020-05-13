@@ -2,10 +2,6 @@ const mongoose = require('../../services/database');
 
 const CityOfficialCasesSchema = new mongoose.Schema(
     {
-        suspects: {
-            type: Number,
-            required: true,
-        },
         confirmed: {
             type: Number,
             required: true,

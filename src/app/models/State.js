@@ -6,10 +6,6 @@ const StateSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  suspects: {
-    type: Number,
-    required: true,
-  },
   confirmed: {
     type: Number,
     required: true,
