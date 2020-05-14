@@ -18,7 +18,7 @@ async function updateWorldData(sheets) {
     if (!model) {
       const record = await World.create(sheet);
       await record.save();
-      console.log(`Google Spreadsheet: World sheet created at ${update}`);
+      console.log(`Google Spreadsheet: World sheet created at ${moment().format('DD/MM/YYYY')}`);
     } else {
       model = await World.findOne({ updatedAt: sheet.updatedAt })
       if (!model) {
@@ -42,7 +42,7 @@ async function updateCountryData(sheets) {
       const record = await Country.create(sheet);
       await record.save();
 
-      console.log(`Google Spreadsheet: Country data created at ${update}`);
+      console.log(`Google Spreadsheet: Country data created at ${moment().format('DD/MM/YYYY')}`);
     } else {
       model = await Country.findOne({ updatedAt: sheet.updatedAt });
       if (!model) {
@@ -72,7 +72,7 @@ async function updateStateData(sheets) {
       const record = await State.create(sheet);
       await record.save();
       await updateCitiesData(sheet);
-      console.log(`Google Spreadsheet: State data created at ${update}`);
+      console.log(`Google Spreadsheet: State data created at ${moment().format('DD/MM/YYYY')}`);
     };
   } catch (e) {
     console.log(e);
@@ -95,7 +95,7 @@ async function updateCitiesData(sheet) {
       console.log(`Google Spreadsheet: Cities Official Cases updated at ${update}`);
     } else {
       await CityOfficialCases.insertMany(cities_cases);
-      console.log(`Google Spreadsheet: Cities Official Cases created at ${update}`);
+      console.log(`Google Spreadsheet: Cities Official Cases created at ${moment().format('DD/MM/YYYY')}`);
     }
   } catch (e) {
     console.log(e);
