@@ -100,15 +100,16 @@ const CasesController = {
             const city = await City.findOne({ name_ca: formatName(cidade) })
 
             const data = {
-                word: {},
+                world: {},
                 country: {},
                 state: {},
                 city: {}
             }
 
             if (world) {
-                data.word = {
-                    confirmed: world.confirmed
+                data.world = {
+                    confirmed: world.confirmed,
+                    updatedAt: world.updatedAt
                 }
             }
             if (country) {
