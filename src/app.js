@@ -59,7 +59,7 @@ class AppController {
 
     this.express.get('/', function (req, res, next) {
       // Handle the get for this route
-      res.status(418).json({ message: 'Welcome' });
+      res.status(418).json({ message: 'Welcome', env: process.env });
     });
 
     this.express.post('/', function (req, res, next) {
