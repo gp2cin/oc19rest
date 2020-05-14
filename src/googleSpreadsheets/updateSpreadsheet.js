@@ -2,6 +2,7 @@ const cron = require('node-cron');
 const moment = require('moment');
 
 const AccessSpreadsheet = require('./accessSpreadsheet');
+const insertCities = require('../geodata/cities')
 
 const { World } = require('../app/models/World');
 const { City } = require('../app/models/City');
@@ -71,6 +72,7 @@ async function updateStateData(sheets) {
     } else {
       const record = await State.create(sheet);
       await record.save();
+      insertCities()
       await updateCitiesData(sheet);
       console.log(`Google Spreadsheet: State data created at ${update}`);
     };
