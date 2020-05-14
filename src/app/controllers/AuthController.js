@@ -20,12 +20,14 @@ class AuthController {
       const user = await User.findOne({ email }).select('+password');
       if (!user) res.status(400).send({ error: 'User not found.' });
       if (!(await bcrypt.compare(password, user.password))) res.status(400).send({ error: 'Invalid password' });
-
       user.lastSignedIn = new Date();
+      console.log('HERE');
       await user.save();
+      console.log('HERE2');
       user.password = undefined;
       res.status(200).send({ user, token: authMiddleware.generateToken({ id: user.id }) });
     } catch (e) {
+      console.log('HERE3');
       console.log(e);
       res.status(400).send({ error: e });
     }

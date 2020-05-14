@@ -27,10 +27,9 @@ const ObserverReportController = {
                 number_of_cases,
             } = req.body;
             console.log(req);
-            const searchUser = await User.findOne({ _id: req.decode });
+            const searchUser = await User.findOne({ _id: req.decoded.id });
             let userId = undefined;
             if (!searchUser) {
-                console.log('AQUI')
                 res.status(404).send({ message: 'User not found. Logout and Login again.' })
             } else {
                 userId = searchUser._id;

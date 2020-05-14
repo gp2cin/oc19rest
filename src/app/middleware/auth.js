@@ -42,11 +42,15 @@ const allowOnly = (minAccessLevel, callback) => {
     });
     if (!user) res.status(400).send({ message: 'User not found.' });
     user.__v = undefined;
+    console.log(minAccessLevel);
+    console.log(user.role.name);
     if (minAccessLevel.includes(user.role.name)) {
+      console.log('AUTORIZADO');
       req.user = user;
       callback(req, res);
+    } else {
+      res.status(401).send({ message: 'Unauthorized' })
     }
-    res.status(401).send({ message: 'Unauthorized' })
   }
   return checkRole;
 }
