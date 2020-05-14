@@ -1,10 +1,12 @@
 const moment = require('moment');
+const formatName = require('../../utils/formatName')
 
 const { ObserverReport } = require('../models/ObserverReport')
 const { User } = require('../models/User');
 const { Individual } = require('../models/Individual');
 const { Diseases } = require('../models/Diseases');
 const { Neighborhood } = require('../models/Neighborhood');
+
 
 const ObserverReportController = {
     store: async (req, res) => {
@@ -105,7 +107,7 @@ const ObserverReportController = {
                 }
                 const observerReport = ObserverReport.create({
                     whistleblower: userId,
-                    city: city,
+                    city: formatName(city),
                     neighborhood: neighborhoodId,
                     neighborhood_name: neighborhood_name,
                     report_type: report_type,
