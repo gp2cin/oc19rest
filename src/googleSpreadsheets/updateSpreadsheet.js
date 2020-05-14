@@ -1,6 +1,9 @@
 const cron = require('node-cron');
 const moment = require('moment');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 const AccessSpreadsheet = require('./accessSpreadsheet');
 
 const { World } = require('../app/models/World');
@@ -104,7 +107,7 @@ async function updateCitiesData(sheet) {
 
 //atualiza a cada dia ou a cada hora
 const update = cron.schedule(
-  '0 * * * * *', //lembrar de alterar: att por dia - '0 0 0 * * *' ou  att por hora - '0 0 * * * *'
+  process.env.CRON_TIMER, //lembrar de alterar: att por dia - '0 0 0 * * *' ou  att por hora - '0 0 * * * *'
   async () => {
     const irrd_doc = await AccessSpreadsheet();
 
