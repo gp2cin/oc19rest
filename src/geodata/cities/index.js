@@ -1,9 +1,11 @@
 const file = require('./cidades.json');
 const { features } = file
 const moment = require('moment');
+const formatName = require('../../utils/formatName');
+const insertNeighborhoods = require('../neighborhoods');
+
 const { City } = require('../../app/models/City');
 const { State } = require('../../app/models/State');
-const formatName = require('../../utils/formatName');
 
 module.exports = async () => {
     try {
@@ -21,6 +23,7 @@ module.exports = async () => {
                 });
                 await record.save()
             };
+            await insertNeighborhoods()
             console.log(`Cities created at ${moment().format('DD/MM/YYYY')}`);
         }
 
