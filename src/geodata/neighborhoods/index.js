@@ -22,7 +22,7 @@ module.exports = async () => {
                 await record.save()
 
             };
-            console.log(`Recife neighborhoods created at ${moment().format('DD/MM/YYYY')}`);
+            console.log(`Neighborhoods created at ${moment().format('DD/MM/YYYY')}`);
         }
     } catch (error) {
         console.log(error)
