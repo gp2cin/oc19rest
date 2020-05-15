@@ -24,7 +24,7 @@ const CasesController = {
                 for (let c in cities) {
                     let official_cases = await CityOfficialCases.findOne({ city: cities[c]._id })
                     const state = await State.findOne({ _id: cities[c].state })
-                    const observer_reports = await ObserverReport.find({ city: cities[c].name_ca })
+                    const observer_reports = await ObserverReport.count({ city: cities[c].name_ca })
 
                     if (official_cases) {
                         official_cases = {
@@ -67,7 +67,7 @@ const CasesController = {
 
                 for (let n in neighborhoods) {
                     const city = await City.findOne({ _id: neighborhoods[n].city })
-                    const observer_reports = await ObserverReport.find({ neighborhood: neighborhoods[n]._id })
+                    const observer_reports = await ObserverReport.count({ neighborhood: neighborhoods[n]._id })
                     neighbor_geojson.features.push({
                         type: "Feature",
                         properties: {
