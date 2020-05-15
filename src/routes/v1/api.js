@@ -9,6 +9,7 @@ const AddressController = require('../../app/controllers/AddressController');
 const WarningController = require('../../app/controllers/WarningController');
 const ObserverReportController = require('../../app/controllers/ObserverReportController');
 const CasesController = require('../../app/controllers/CasesController');
+const NeighborController = require('../../app/controllers/NeighborController');
 
 const updateGoogleSpreadsheet = require('../../googleSpreadsheets/updateSpreadsheet');
 //const insertCities = require('../../geodata/cities')
@@ -43,6 +44,8 @@ var APIRoutes = function (passport) {
   router.get('/cases/map', CasesController.map)
   router.get('/cases', CasesController.confirmed);
   router.get('/cases/state', CasesController.find);
+
+  router.get('/neighborhoods', NeighborController.list)
 
   router.use('/docs', swaggerUi.serve);
   router.get('/docs', swaggerUi.setup(swaggerDocument));
