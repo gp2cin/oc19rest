@@ -10,10 +10,10 @@ const NeighborController = {
 
             if (city) {
                 const neighborhoods = await Neighborhood.find({ city: city._id });
-                if (neighborhoods.length > 0) { res.status(200).send(neighborhoods) }
-                else { res.status(404).json({ 'message': 'Neighborhood not found' }) }
+                if (neighborhoods.length > 0) res.status(200).send(neighborhoods);
+                else res.status(404).json();
             } else {
-                res.status(404).json({ 'message': 'City not found' });
+                res.status(404).json();
             }
         } catch (e) {
             console.log(e)
