@@ -88,15 +88,26 @@ async function updateCitiesData(sheet) {
   let update = moment(sheet.updatedAt).format('DD/MM/YYYY');
 
   try {
-    for (let c in cities_cases) {
-      const city = await City.findOne({ name_ca: cities_cases[c].city });
-      if (city) cities_cases[c].city = city._id;
-    }
-
     if (model) {
-      await CityOfficialCases.updateMany(cities_cases)
+      for (let c in cities_cases) {
+        const city = await City.findOne({ name_ca: cities_cases[c].city });
+        if (city) {
+          cities_cases[c].city = city._id;
+          await CityOfficialCases.updateOne({ city: cities_cases[c].city }, {
+            confirmed: cities_cases[c].confirmed,
+            recovered: cities_cases[c].recovered,
+            deaths: cities_cases[c].deaths,
+            active: cities_cases[c].active,
+            updatedAt: cities_cases[c].updatedAt
+          });
+        }
+      }
       console.log(`Google Spreadsheet: Cities Official Cases updated at ${update}`);
     } else {
+      for (let c in cities_cases) {
+        const city = await City.findOne({ name_ca: cities_cases[c].city });
+        if (city) cities_cases[c].city = city._id;
+      }
       await CityOfficialCases.insertMany(cities_cases);
       console.log(`Google Spreadsheet: Cities Official Cases created at ${moment().format('DD/MM/YYYY')}`);
     }
