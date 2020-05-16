@@ -1,3 +1,5 @@
+const { User } = require('../models/User');
+
 let jwt = require('jsonwebtoken');
 const config = require('../../config/auth');
 
@@ -32,7 +34,29 @@ const checkToken = (req, res, next) => {
   });
 };
 
+const allowOnly = (minAccessLevel, callback) => {
+  async function checkRole(req, res) {
+    const { id } = req.decoded;
+    const user = await User.findOne({
+      _id: id
+    });
+    if (!user) res.status(400).send({ message: 'User not found.' });
+    user.__v = undefined;
+    console.log(minAccessLevel);
+    console.log(user.role.name);
+    if (minAccessLevel.includes(user.role.name)) {
+      console.log('AUTORIZADO');
+      req.user = user;
+      callback(req, res);
+    } else {
+      res.status(401).send({ message: 'Unauthorized' })
+    }
+  }
+  return checkRole;
+}
+
 module.exports = {
   checkToken,
-  generateToken
+  generateToken,
+  allowOnly
 };

@@ -12,8 +12,6 @@ const ObserverReportController = {
     store: async (req, res) => {
         try {
             const {
-                observer_name,
-                observer_email,
                 city,
                 neighborhood,
                 neighborhood_name,
@@ -30,16 +28,11 @@ const ObserverReportController = {
                 general_comments,
                 number_of_cases,
             } = req.body;
-            if (!observer_email) res.status(400).send({ message: 'Email is not found.' });
-            const searchUser = await User.findOne({ email: observer_email });
+            console.log(req);
+            const searchUser = await User.findOne({ _id: req.decoded.id });
             let userId = undefined;
             if (!searchUser) {
-                const password = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-                const user = await User.create({ password, email: observer_email, active: true });
-                const individual = await Individual.create({ name: observer_name });
-                user.individual = individual;
-                await user.save();
-                userId = user._id;
+                res.status(404).send({ message: 'User not found. Logout and Login again.' })
             } else {
                 userId = searchUser._id;
             }

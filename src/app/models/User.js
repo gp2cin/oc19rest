@@ -2,6 +2,7 @@ const mongoose = require('../../services/database');
 const bcrypt = require('bcryptjs');
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const { IndividualSchema } = require('./Individual');
+const { RoleSchema } = require('./Role');
 const UserSchema = new mongoose.Schema(
   {
     first_name: {
@@ -10,6 +11,7 @@ const UserSchema = new mongoose.Schema(
     last_name: {
       type: String,
     },
+    role: RoleSchema,
     email: {
       type: String,
       unique: true,
