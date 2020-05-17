@@ -78,6 +78,56 @@ class AuthController {
     }
   }
 
+
+  /*
+   * Function to register a new observer and get token
+   */
+  async signUpObserver(req, res) {
+    const { password, first_name, last_name, email, gender, birthdate } = req.body;
+    console.log(req.body);
+    
+    try {
+      if (!(password || first_name || email)) {
+        res.status(404).send({ error: 'First name, email and password are required.' });
+      }
+      const searchUser = await User.findOne({ email });
+      if (searchUser) {
+        res.status(400).send({ error: 'User alredy exists.' });
+      } else {
+        const privilege = await Privilege.create({
+          name: 'OBSERVER',
+        });
+        const role = await Role.create({
+          name: 'OBSERVER',
+          privileges: [privilege],
+        });
+        const user = await User.create({ password, first_name, last_name, role, email, active: true });
+        if (user) {
+          const individual = await Individual.create({
+            gender: gender ? (['MALE', 'FEMALE'].includes(gender.toUpperCase()) ? gender.toUpperCase() : 'OTHER') : 'OTHER',
+            birthdate: moment(birthdate),
+          });
+          individual.createdAt = new Date();
+
+          individual.updateAt = new Date();
+          user.individual = individual;
+          await individual.save();
+
+          await user.save();
+          user.password = undefined;
+          res.status(201).send({ user, token: authMiddleware.generateToken({ id: user.id }) });
+        }
+      }
+    } catch (e) {
+      console.log(e);
+      
+      res.status(400).send({
+        message: 'Registration failed',
+        error: e.errmsg
+      });
+    }
+  }
+
   /*
    * Function to retreive user info
    */
