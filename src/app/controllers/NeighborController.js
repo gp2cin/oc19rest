@@ -10,8 +10,14 @@ const NeighborController = {
 
             if (city) {
                 const neighborhoods = await Neighborhood.find({ city: city._id });
-                if (neighborhoods.length > 0) res.status(200).send(neighborhoods);
-                else res.status(404).json();
+                const response = []
+
+                if (neighborhoods.length > 0) {
+                    neighborhoods.map(item => { response.push(item.name) })
+                    res.status(200).send(response);
+                } else {
+                    res.status(404).json();
+                }
             } else {
                 res.status(404).json();
             }
