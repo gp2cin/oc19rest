@@ -1,9 +1,5 @@
 'use-strict';
-const { MONGO_USERNAME, MONGO_PASSWORD, MONGO_HOST, MONGO_PORT, MONGO_DB } = process.env;
-const uri =
-  MONGO_USERNAME !== '' && MONGO_PASSWORD !== ''
-    ? `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`
-    : `mongodb://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}`;
+const uri = process.env.MONGO_URI
 
 module.exports = {
   options: {

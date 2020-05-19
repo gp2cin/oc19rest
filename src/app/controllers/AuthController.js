@@ -2,9 +2,12 @@ const bcrypt = require('bcryptjs');
 const { User } = require('../models/User');
 // const mailer = require('../../modules/mailer');
 const { Individual } = require('../models/Individual');
+const { Role } = require('../models/Role');
+const { Privilege } = require('../models/Privilege');
 const { Address } = require('../models/Address');
 const { Phones } = require('../models/Phone');
 const authMiddleware = require('../middleware/auth');
+const moment = require('moment');
 
 class AuthController {
   /*
@@ -17,12 +20,14 @@ class AuthController {
       const user = await User.findOne({ email }).select('+password');
       if (!user) res.status(400).send({ error: 'User not found.' });
       if (!(await bcrypt.compare(password, user.password))) res.status(400).send({ error: 'Invalid password' });
-
       user.lastSignedIn = new Date();
+      console.log('HERE');
       await user.save();
+      console.log('HERE2');
       user.password = undefined;
       res.status(200).send({ user, token: authMiddleware.generateToken({ id: user.id }) });
     } catch (e) {
+      console.log('HERE3');
       console.log(e);
       res.status(400).send({ error: e });
     }
@@ -34,19 +39,25 @@ class AuthController {
   async signUp(req, res) {
     const { password, first_name, last_name, email, gender, birthdate } = req.body;
     try {
-      if (!(password || first_name || email))
+      if (!(password || first_name || email)) {
         res.status(404).send({ error: 'First name, email and password are required.' });
+      }
       const searchUser = await User.findOne({ email });
       if (searchUser) {
         res.status(400).send({ error: 'User alredy exists.' });
       } else {
-        const user = await User.create({ password, first_name, last_name, email, active: true });
+        const privilege = await Privilege.create({
+          name: 'COMMON',
+        });
+        const role = await Role.create({
+          name: 'COMMON',
+          privileges: [privilege],
+        });
+        const user = await User.create({ password, first_name, last_name, role, email, active: true });
         if (user) {
           const individual = await Individual.create({
-            gender,
-            birthdate,
-            user: user._id,
-            active: true
+            gender: gender ? (['MALE', 'FEMALE'].includes(gender.toUpperCase()) ? gender.toUpperCase() : 'OTHER') : 'OTHER',
+            birthdate: moment(birthdate),
           });
           individual.createdAt = new Date();
 
@@ -60,6 +71,56 @@ class AuthController {
         }
       }
     } catch (e) {
+      res.status(400).send({
+        message: 'Registration failed',
+        error: e.errmsg
+      });
+    }
+  }
+
+
+  /*
+   * Function to register a new observer and get token
+   */
+  async signUpObserver(req, res) {
+    const { password, first_name, last_name, email, gender, birthdate } = req.body;
+    console.log(req.body);
+    
+    try {
+      if (!(password || first_name || email)) {
+        res.status(404).send({ error: 'First name, email and password are required.' });
+      }
+      const searchUser = await User.findOne({ email });
+      if (searchUser) {
+        res.status(400).send({ error: 'User alredy exists.' });
+      } else {
+        const privilege = await Privilege.create({
+          name: 'OBSERVER',
+        });
+        const role = await Role.create({
+          name: 'OBSERVER',
+          privileges: [privilege],
+        });
+        const user = await User.create({ password, first_name, last_name, role, email, active: true });
+        if (user) {
+          const individual = await Individual.create({
+            gender: gender ? (['MALE', 'FEMALE'].includes(gender.toUpperCase()) ? gender.toUpperCase() : 'OTHER') : 'OTHER',
+            birthdate: moment(birthdate),
+          });
+          individual.createdAt = new Date();
+
+          individual.updateAt = new Date();
+          user.individual = individual;
+          await individual.save();
+
+          await user.save();
+          user.password = undefined;
+          res.status(201).send({ user, token: authMiddleware.generateToken({ id: user.id }) });
+        }
+      }
+    } catch (e) {
+      console.log(e);
+      
       res.status(400).send({
         message: 'Registration failed',
         error: e.errmsg

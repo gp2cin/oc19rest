@@ -7,15 +7,20 @@ const AuthController = require('../../app/controllers/AuthController');
 const PhoneController = require('../../app/controllers/PhoneController');
 const AddressController = require('../../app/controllers/AddressController');
 const WarningController = require('../../app/controllers/WarningController');
-const CaseController = require('../../app/controllers/CaseController');
+const ObserverReportController = require('../../app/controllers/ObserverReportController');
+const CasesController = require('../../app/controllers/CasesController');
+const NeighborController = require('../../app/controllers/NeighborController');
 
-const updateGoogleSpreadsheet = require('../../sheets/updateSpreadsheet');
+const updateGoogleSpreadsheet = require('../../googleSpreadsheets/updateSpreadsheet');
+//const insertCities = require('../../geodata/cities')
 
 var APIRoutes = function (passport) {
   updateGoogleSpreadsheet.start(); //atualização das planilhas do Google Spreadsheet
+  //insertCities()
 
   router.post('/signin', AuthController.signIn);
   router.post('/signup', AuthController.signUp);
+  // router.post('/signupObserver', AuthController.signUpObserver);
   router.get('/me', authMiddleware.checkToken, AuthController.me);
 
   router.get('/addresses', authMiddleware.checkToken, AddressController.list);
@@ -30,12 +35,22 @@ var APIRoutes = function (passport) {
   router.put('/phones/:id', authMiddleware.checkToken, PhoneController.update);
   router.delete('/phones/:id', authMiddleware.checkToken, PhoneController.remove);
 
-  router.post('/warnings', WarningController.store);
+  router.post('/warnings', authMiddleware.checkToken, WarningController.store);
   router.get('/warnings/map', WarningController.map);
   router.get('/warnings', WarningController.list);
 
-  router.get('/cases', CaseController.list);
-  router.get('/cases/state', CaseController.find);
+  router.post(
+    '/observer-report',
+    authMiddleware.checkToken,
+    authMiddleware.allowOnly(['OBSERVER'], ObserverReportController.store)
+  );
+  router.get('/observer-report', ObserverReportController.list);
+
+  router.get('/cases/map', CasesController.map);
+  router.get('/cases', CasesController.confirmed);
+  router.get('/cases/state', CasesController.find);
+
+  router.get('/neighborhoods', NeighborController.list);
 
   router.use('/docs', swaggerUi.serve);
   router.get('/docs', swaggerUi.setup(swaggerDocument));

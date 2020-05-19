@@ -1,19 +1,8 @@
+//Only official cases
 const mongoose = require('../../services/database');
 
-const StateSchema = new mongoose.Schema({
-  cities: {
-    type: [],
-    required: true,
-  },
-  suspects: {
-    type: Number,
-    required: true,
-  },
+const WorldSchema = new mongoose.Schema({
   confirmed: {
-    type: Number,
-    required: true,
-  },
-  recovered: {
     type: Number,
     required: true,
   },
@@ -21,11 +10,15 @@ const StateSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  active: {
+  new_cases: {
     type: Number,
     required: true,
   },
-  lethality_percentage: {
+  new_deaths: {
+    type: Number,
+    required: true,
+  },
+  mortality_100k: {
     type: Number,
     required: true,
   },
@@ -36,6 +29,6 @@ const StateSchema = new mongoose.Schema({
 });
 
 module.exports = {
-  State: mongoose.model('State', StateSchema),
-  StateSchema,
+  World: mongoose.model('World', WorldSchema),
+  WorldSchema,
 };

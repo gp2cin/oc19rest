@@ -5,7 +5,8 @@ const RoleSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true
+      enum: ['ADMIN', 'OBSERVER', 'COMMON'],
+      default: 'COMMON',
     },
     privileges: [PrivilegeSchema],
     active: {
