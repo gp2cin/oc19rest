@@ -10,6 +10,7 @@ const WarningController = require('../../app/controllers/WarningController');
 const ObserverReportController = require('../../app/controllers/ObserverReportController');
 const CasesController = require('../../app/controllers/CasesController');
 const NeighborController = require('../../app/controllers/NeighborController');
+const GeneralObservationController = require('../../app/controllers/GeneralObservationController');
 
 const updateGoogleSpreadsheet = require('../../googleSpreadsheets/updateSpreadsheet');
 //const insertCities = require('../../geodata/cities')
@@ -45,6 +46,9 @@ var APIRoutes = function (passport) {
     authMiddleware.allowOnly(['OBSERVER'], ObserverReportController.store)
   );
   router.get('/observer-report', ObserverReportController.list);
+
+  router.post('/general-observation', GeneralObservationController.store);
+  router.get('/general-observations', GeneralObservationController.list);
 
   router.get('/cases/map', CasesController.map);
   router.get('/cases', CasesController.confirmed);
