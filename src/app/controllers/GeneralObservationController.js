@@ -22,6 +22,20 @@ const GeneralObservationController = {
                 }
             }
 
+            if (observer_name === "" && observer_email === "") {
+                if (req.decoded) {
+                    const searchUser = await User.findOne({ _id: req.decoded.id });
+                    if (!searchUser) {
+                        res.status(404).send({ message: 'User not found. Logout and Login again.' })
+                    } else {
+                        observer_name = searchUser.name;
+                        observer_email = searchUser.email;
+                    }
+                } else {
+                    res.status(404).send({ message: 'User not found. Logout and Login again.' })
+                }
+            }
+
             const generalObservation = GeneralObservation.create({
                 observer_name: observer_name,
                 observer_email: observer_email,
@@ -38,7 +52,7 @@ const GeneralObservationController = {
                 } else {
                     res.status(201).send({
                         message: 'Created successfully',
-                        observerReport,
+                        generalObservation,
                     });
                 }
             })
