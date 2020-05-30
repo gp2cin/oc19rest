@@ -1,9 +1,11 @@
 const { GeneralObservation } = require('../models/GeneralObservation');
+const { User } = require('../models/User');
+const { Neighborhood } = require('../models/Neighborhood');
 
 const GeneralObservationController = {
     store: async (req, res) => {
         try {
-            const {
+            let {
                 observer_name,
                 observer_email,
                 neighborhood,
@@ -23,39 +25,67 @@ const GeneralObservationController = {
             }
 
             if (observer_name === "" && observer_email === "") {
-                if (req.decoded) {
+                console.log('OI');
+                if (req.decoded !== null && req.decoded !== undefined) {
+                    console.log('OI2');
                     const searchUser = await User.findOne({ _id: req.decoded.id });
                     if (!searchUser) {
+                        console.log('OI3');
                         res.status(404).send({ message: 'User not found. Logout and Login again.' })
                     } else {
+                        console.log('OI4');
                         observer_name = searchUser.name;
                         observer_email = searchUser.email;
+                        const generalObservation = GeneralObservation.create({
+                            observer_name: observer_name,
+                            observer_email: observer_email,
+                            neighborhood: neighborhoodId,
+                            neighborhood_name: neighborhood_name,
+                            report_type: report_type,
+                            observation: observation,
+                        })
+
+                        console.log(generalObservation);
+
+                        GeneralObservation.collection.insertOne(generalObservation, (err, docs) => {
+                            if (err) {
+                                console.log(err);
+                                res.status(400).send(err);
+                            } else {
+                                res.status(201).send({
+                                    message: 'Created successfully',
+                                    generalObservation,
+                                });
+                            }
+                        })
                     }
                 } else {
                     res.status(404).send({ message: 'User not found. Logout and Login again.' })
                 }
+            } else {
+                const generalObservation = GeneralObservation.create({
+                    observer_name: observer_name,
+                    observer_email: observer_email,
+                    neighborhood: neighborhoodId,
+                    neighborhood_name: neighborhood_name,
+                    report_type: report_type,
+                    observation: observation,
+                })
+
+                console.log(generalObservation);
+
+                GeneralObservation.collection.insertOne(generalObservation, (err, docs) => {
+                    if (err) {
+                        console.log(err);
+                        res.status(400).send(err);
+                    } else {
+                        res.status(201).send({
+                            message: 'Created successfully',
+                            generalObservation,
+                        });
+                    }
+                })
             }
-
-            const generalObservation = GeneralObservation.create({
-                observer_name: observer_name,
-                observer_email: observer_email,
-                neighborhood: neighborhoodId,
-                neighborhood_name: neighborhood_name,
-                report_type: report_type,
-                observation: observation,
-            })
-
-            GeneralObservation.collection.insertOne(generalObservation, (err, docs) => {
-                if (err) {
-                    console.log(err);
-                    res.status(400).send(err);
-                } else {
-                    res.status(201).send({
-                        message: 'Created successfully',
-                        generalObservation,
-                    });
-                }
-            })
 
         } catch (error) {
             console.log(error);

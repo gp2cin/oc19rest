@@ -48,6 +48,7 @@ var APIRoutes = function (passport) {
   router.get('/observer-report', ObserverReportController.list);
 
   router.post('/general-observation', GeneralObservationController.store);
+  router.post('/general-observation-auth', authMiddleware.checkToken, GeneralObservationController.store);
   router.get('/general-observations', GeneralObservationController.list);
 
   router.get('/cases/map', CasesController.map);
