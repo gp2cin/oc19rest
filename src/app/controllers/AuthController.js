@@ -37,9 +37,9 @@ class AuthController {
    * Function to register and get token
    */
   async signUp(req, res) {
-    const { password, first_name, last_name, email, gender, birthdate } = req.body;
+    const { password, name, email, gender, birthdate } = req.body;
     try {
-      if (!(password || first_name || email)) {
+      if (!(password || name || email)) {
         res.status(404).send({ error: 'First name, email and password are required.' });
       }
       const searchUser = await User.findOne({ email });
@@ -53,7 +53,7 @@ class AuthController {
           name: 'COMMON',
           privileges: [privilege],
         });
-        const user = await User.create({ password, first_name, last_name, role, email, active: true });
+        const user = await User.create({ password, name, role, email, active: true });
         if (user) {
           const individual = await Individual.create({
             gender: gender ? (['MALE', 'FEMALE'].includes(gender.toUpperCase()) ? gender.toUpperCase() : 'OTHER') : 'OTHER',
@@ -83,12 +83,12 @@ class AuthController {
    * Function to register a new observer and get token
    */
   async signUpObserver(req, res) {
-    const { password, first_name, last_name, email, gender, birthdate } = req.body;
+    const { password, name, email, gender, birthdate } = req.body;
     console.log(req.body);
-    
+
     try {
-      if (!(password || first_name || email)) {
-        res.status(404).send({ error: 'First name, email and password are required.' });
+      if (!(password || name || email)) {
+        res.status(404).send({ error: 'Name, email and password are required.' });
       }
       const searchUser = await User.findOne({ email });
       if (searchUser) {
@@ -101,7 +101,7 @@ class AuthController {
           name: 'OBSERVER',
           privileges: [privilege],
         });
-        const user = await User.create({ password, first_name, last_name, role, email, active: true });
+        const user = await User.create({ password, name, role, email, active: true });
         if (user) {
           const individual = await Individual.create({
             gender: gender ? (['MALE', 'FEMALE'].includes(gender.toUpperCase()) ? gender.toUpperCase() : 'OTHER') : 'OTHER',
@@ -120,7 +120,7 @@ class AuthController {
       }
     } catch (e) {
       console.log(e);
-      
+
       res.status(400).send({
         message: 'Registration failed',
         error: e.errmsg
@@ -177,6 +177,26 @@ class AuthController {
     // user.besses = undefined;
 
     res.status(200).send(user);
+  }
+
+  /*
+   * Function to change password
+   */
+  async changePassword(req, res, next) {
+    try {
+      const { id } = req.decoded;
+      const { password } = req.body;
+      const user = await User.findOne({ _id: id });
+      if (!user) res.status(404).send({ message: 'User not found.' });
+      else {
+        const hash = await bcrypt.hash(password, 10);
+        await User.updateOne({ _id: id }, { password: hash });
+        res.status(200).send({ message: 'Password changed' })
+      }
+    } catch (e) {
+      res.status(400).send()
+      console.log(e);
+    }
   }
 }
 
