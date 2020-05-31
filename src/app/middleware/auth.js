@@ -15,7 +15,6 @@ const checkToken = (req, res, next) => {
   const parts = authHeader.split(' ');
   if (!parts.length === 2) res.status(401).send({ error: 'Invalid token.' });
   const [scheme, token] = parts;
-
   if (!/^Bearer$/i.test(scheme)) res.status(401).send({ error: 'Token malformed.' });
 
   // let token = req.headers['x-access-token'] || req.headers['authorization'];
