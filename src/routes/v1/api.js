@@ -12,16 +12,14 @@ const CasesController = require('../../app/controllers/CasesController');
 const NeighborController = require('../../app/controllers/NeighborController');
 
 const updateGoogleSpreadsheet = require('../../googleSpreadsheets/updateSpreadsheet');
-//const insertCities = require('../../geodata/cities')
-
 var APIRoutes = function (passport) {
   updateGoogleSpreadsheet.start(); //atualização das planilhas do Google Spreadsheet
-  //insertCities()
 
   router.post('/signin', AuthController.signIn);
   router.post('/signup', AuthController.signUp);
-  // router.post('/signupObserver', AuthController.signUpObserver);
+  //router.post('/signupObserver', AuthController.signUpObserver);
   router.get('/me', authMiddleware.checkToken, AuthController.me);
+  router.post('/me/change-password', authMiddleware.checkToken, AuthController.changePassword);
 
   router.get('/addresses', authMiddleware.checkToken, AddressController.list);
   router.post('/addresses', authMiddleware.checkToken, AddressController.store);

@@ -5,10 +5,7 @@ const { IndividualSchema } = require('./Individual');
 const { RoleSchema } = require('./Role');
 const UserSchema = new mongoose.Schema(
   {
-    first_name: {
-      type: String,
-    },
-    last_name: {
+    name: {
       type: String,
     },
     role: RoleSchema,
