@@ -10,6 +10,11 @@ const GeneralObservationSchema = new mongoose.Schema({
     observer_email: {
         type: String,
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        select: false,
+    },
     neighborhood: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Neighborhood',
@@ -22,6 +27,9 @@ const GeneralObservationSchema = new mongoose.Schema({
         type: String,
     },
     observation: {
+        type: String,
+    },
+    image_url: {
         type: String,
     },
     active: {

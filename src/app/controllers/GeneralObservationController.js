@@ -12,6 +12,7 @@ const GeneralObservationController = {
                 neighborhood_name,
                 report_type,
                 observation,
+                image_url,
             } = req.body;
 
             let neighborhoodId = undefined;
@@ -24,6 +25,7 @@ const GeneralObservationController = {
                 }
             }
 
+            let userId = undefined;
             if (observer_name === "" && observer_email === "") {
                 console.log('OI');
                 if (req.decoded !== null && req.decoded !== undefined) {
@@ -36,6 +38,7 @@ const GeneralObservationController = {
                         console.log('OI4');
                         observer_name = searchUser.name;
                         observer_email = searchUser.email;
+                        userId = searchUser._id
                         const generalObservation = GeneralObservation.create({
                             observer_name: observer_name,
                             observer_email: observer_email,
@@ -43,6 +46,8 @@ const GeneralObservationController = {
                             neighborhood_name: neighborhood_name,
                             report_type: report_type,
                             observation: observation,
+                            image_url: image_url,
+                            user: userId,
                         })
 
                         console.log(generalObservation);
@@ -70,6 +75,8 @@ const GeneralObservationController = {
                     neighborhood_name: neighborhood_name,
                     report_type: report_type,
                     observation: observation,
+                    image_url: image_url,
+                    user: userId,
                 })
 
                 console.log(generalObservation);

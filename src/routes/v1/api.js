@@ -11,6 +11,7 @@ const ObserverReportController = require('../../app/controllers/ObserverReportCo
 const CasesController = require('../../app/controllers/CasesController');
 const NeighborController = require('../../app/controllers/NeighborController');
 const GeneralObservationController = require('../../app/controllers/GeneralObservationController');
+const AWSBucketController = require('../../app/controllers/AWSBucketController');
 
 const updateGoogleSpreadsheet = require('../../googleSpreadsheets/updateSpreadsheet');
 //const insertCities = require('../../geodata/cities')
@@ -59,6 +60,9 @@ var APIRoutes = function (passport) {
 
   router.use('/docs', swaggerUi.serve);
   router.get('/docs', swaggerUi.setup(swaggerDocument));
+
+  router.get('/generate-get-url', AWSBucketController.getURL);
+  router.get('/generate-put-url', AWSBucketController.putURL);
 
   return router;
 };
