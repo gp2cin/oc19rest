@@ -10,6 +10,8 @@ const WarningController = require('../../app/controllers/WarningController');
 const ObserverReportController = require('../../app/controllers/ObserverReportController');
 const CasesController = require('../../app/controllers/CasesController');
 const NeighborController = require('../../app/controllers/NeighborController');
+const GeneralObservationController = require('../../app/controllers/GeneralObservationController');
+const AWSBucketController = require('../../app/controllers/AWSBucketController');
 
 const updateGoogleSpreadsheet = require('../../googleSpreadsheets/updateSpreadsheet');
 var APIRoutes = function (passport) {
@@ -44,6 +46,10 @@ var APIRoutes = function (passport) {
   );
   router.get('/observer-report', ObserverReportController.list);
 
+  router.post('/general-observation', GeneralObservationController.store);
+  router.post('/general-observation-auth', authMiddleware.checkToken, GeneralObservationController.store);
+  router.get('/general-observations', GeneralObservationController.list);
+
   router.get('/cases/map', CasesController.map);
   router.get('/cases', CasesController.confirmed);
   router.get('/cases/state', CasesController.find);
@@ -52,6 +58,9 @@ var APIRoutes = function (passport) {
 
   router.use('/docs', swaggerUi.serve);
   router.get('/docs', swaggerUi.setup(swaggerDocument));
+
+  router.get('/generate-get-url', AWSBucketController.getURL);
+  router.get('/generate-put-url', AWSBucketController.putURL);
 
   return router;
 };
