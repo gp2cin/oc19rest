@@ -24,14 +24,14 @@ const CasesController = {
                 for (let c in cities) {
                     let official_cases = await CityOfficialCases.findOne({ city: cities[c]._id })
                     const state = await State.findOne({ _id: cities[c].state })
-                    const observer_reports = await ObserverReport.count({ city: cities[c].name_ca })
+                    const observer_reports = await ObserverReport.countDocuments({ city: cities[c].name_ca })
 
                     if (official_cases) {
                         official_cases = {
-                            'confirmed': official_cases.confirmed,
-                            'recovered': official_cases.recovered,
-                            'deaths': official_cases.deaths,
-                            'active': official_cases.active,
+                            'confirmed': official_cases.confirmed.toLocaleString(),
+                            'recovered': official_cases.recovered.toLocaleString(),
+                            'deaths': official_cases.deaths.toLocaleString(),
+                            'active': official_cases.active.toLocaleString(),
                             'updatedAt': official_cases.updatedAt
                         }
                     } else {
@@ -51,7 +51,7 @@ const CasesController = {
                             name: cities[c].name,
                             state: state.name,
                             official_cases: official_cases,
-                            observer_reports: observer_reports
+                            observer_reports: observer_reports.toLocaleString()
                         },
                         geometry: cities[c].location
                     });
@@ -67,7 +67,7 @@ const CasesController = {
 
                 for (let n in neighborhoods) {
                     const city = await City.findOne({ _id: neighborhoods[n].city })
-                    const observer_reports = await ObserverReport.count({ neighborhood: neighborhoods[n]._id })
+                    const observer_reports = await ObserverReport.countDocuments({ neighborhood: neighborhoods[n]._id })
                     neighbor_geojson.features.push({
                         type: "Feature",
                         properties: {
@@ -75,7 +75,7 @@ const CasesController = {
                             name_ca: neighborhoods[n].name_ca,
                             name: neighborhoods[n].name,
                             city: city.name,
-                            observer_reports: observer_reports
+                            observer_reports: observer_reports.toLocaleString()
                         },
                         geometry: neighborhoods[n].location
                     });
