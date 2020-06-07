@@ -28,7 +28,6 @@ const ObserverReportController = {
                 general_comments,
                 number_of_cases,
             } = req.body;
-            console.log(req);
             const searchUser = await User.findOne({ _id: req.decoded.id });
             let userId = undefined;
             if (!searchUser) {
@@ -48,8 +47,9 @@ const ObserverReportController = {
                 }
             }
 
-            if (Number(number_of_cases) == NaN) res.status(400).send({ message: 'Age is not a number.' });
-            if (Number(number_of_cases) != 0) {
+            //if (Number(case_age) == NaN) res.status(400).send({ message: 'Age is not a number.' });
+            console.log(Number(number_of_cases));
+            if (Number(number_of_cases) !== 0 && (number_of_cases !== null && number_of_cases !== undefined) && Number(number_of_cases) !== NaN) {
                 let reportArray = [];
                 for (i = 0; i < Number(number_of_cases); i++) {
                     const case_individual = await Individual.create({});
