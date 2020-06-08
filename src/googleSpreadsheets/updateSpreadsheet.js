@@ -28,12 +28,12 @@ async function updateWorldData(sheets) {
         const record = await World.create(sheet);
         await record.save();
         console.log(`Google Spreadsheet: World data updated at ${update}`);
-      };
-    };
+      }
+    }
   } catch (e) {
     console.log(e);
-  };
-};
+  }
+}
 
 async function updateCountryData(sheets) {
   let sheet = sheets.country;
@@ -51,12 +51,12 @@ async function updateCountryData(sheets) {
       if (!model) {
         await Country.updateOne({ name: sheet.name }, sheet);
         console.log(`Google Spreadsheet: Country data updated at ${update}`);
-      };
-    };
+      }
+    }
   } catch (e) {
     console.log(e);
-  };
-};
+  }
+}
 
 async function updateStateData(sheets) {
   let sheet = sheets.state;
@@ -70,17 +70,17 @@ async function updateStateData(sheets) {
         await updateCitiesData(sheet);
         await State.updateOne({ name: sheet.name }, sheet);
         console.log(`Google Spreadsheet: State data updated at ${update}`);
-      };
+      }
     } else {
       const record = await State.create(sheet);
       await record.save();
       await updateCitiesData(sheet);
       console.log(`Google Spreadsheet: State data created at ${moment().format('DD/MM/YYYY')}`);
-    };
+    }
   } catch (e) {
     console.log(e);
-  };
-};
+  }
+}
 
 async function updateCitiesData(sheet) {
   let model = await CityOfficialCases.findOne();
@@ -113,8 +113,8 @@ async function updateCitiesData(sheet) {
     }
   } catch (e) {
     console.log(e);
-  };
-};
+  }
+}
 
 //atualiza a cada dia ou a cada hora
 const update = cron.schedule(
