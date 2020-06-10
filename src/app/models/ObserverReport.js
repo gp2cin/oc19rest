@@ -28,7 +28,7 @@ const ObserverReportSchema = new mongoose.Schema({
         type: String,
     },
     case_type: {
-        typr: String,
+        type: String,
     },
     case_individual: IndividualSchema,
     household_contact_confirmed_case: {

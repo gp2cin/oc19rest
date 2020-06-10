@@ -30,6 +30,7 @@ const ObserverReportController = {
                 general_comments,
                 number_of_cases,
             } = req.body;
+
             const searchUser = await User.findOne({ _id: req.decoded.id });
             let userId = undefined;
             if (!searchUser) {
