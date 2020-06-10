@@ -24,7 +24,7 @@ const CasesController = {
                 for (let c in cities) {
                     let official_cases = await CityOfficialCases.findOne({ city: cities[c]._id })
                     const state = await State.findOne({ _id: cities[c].state })
-                    const observer_reports = await ObserverReport.countDocuments({ city: cities[c].name_ca })
+                    const observer_reports = await ObserverReport.countDocuments({ city_mongo_id: cities[c]._id })
 
                     if (official_cases) {
                         official_cases = {
