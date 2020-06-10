@@ -1,6 +1,7 @@
 const { GeneralObservation } = require('../models/GeneralObservation');
 const { User } = require('../models/User');
 const { Neighborhood } = require('../models/Neighborhood');
+const { City } = require('../models/City');
 
 const GeneralObservationController = {
     store: async (req, res) => {
@@ -8,6 +9,8 @@ const GeneralObservationController = {
             let {
                 observer_name,
                 observer_email,
+                city,
+                city_ca,
                 neighborhood,
                 neighborhood_name,
                 report_type,
@@ -22,6 +25,16 @@ const GeneralObservationController = {
                     neighborhoodId = searchNeighborhood._id;
                 } else {
                     console.log('Neighborhood not found');
+                }
+            }
+
+            let cityId = undefined;
+            if (city_ca) {
+                const searchCity = await City.findOne({ name_ca: city_ca });
+                if (searchCity) {
+                    cityId = searchCity._id;
+                } else {
+                    console.log('City not found');
                 }
             }
 
@@ -44,6 +57,8 @@ const GeneralObservationController = {
                             observer_email: observer_email,
                             neighborhood: neighborhoodId,
                             neighborhood_name: neighborhood_name,
+                            city: city,
+                            city_mongo_id: cityId,
                             report_type: report_type,
                             observation: observation,
                             image_url: image_url,
@@ -73,6 +88,8 @@ const GeneralObservationController = {
                     observer_email: observer_email,
                     neighborhood: neighborhoodId,
                     neighborhood_name: neighborhood_name,
+                    city: city,
+                    city_mongo_id: cityId,
                     report_type: report_type,
                     observation: observation,
                     image_url: image_url,

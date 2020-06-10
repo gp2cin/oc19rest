@@ -6,6 +6,7 @@ const { User } = require('../models/User');
 const { Individual } = require('../models/Individual');
 const { Diseases } = require('../models/Diseases');
 const { Neighborhood } = require('../models/Neighborhood');
+const { City } = require('../models/City');
 
 
 const ObserverReportController = {
@@ -13,6 +14,7 @@ const ObserverReportController = {
         try {
             const {
                 city,
+                city_ca,
                 neighborhood,
                 neighborhood_name,
                 report_type,
@@ -47,6 +49,16 @@ const ObserverReportController = {
                 }
             }
 
+            let cityId = undefined;
+            if (city_ca) {
+                const searchCity = await City.findOne({ name_ca: city_ca });
+                if (searchCity) {
+                    cityId = searchCity._id;
+                } else {
+                    console.log('City not found');
+                }
+            }
+
             //if (Number(case_age) == NaN) res.status(400).send({ message: 'Age is not a number.' });
             console.log(Number(number_of_cases));
             if (Number(number_of_cases) !== 0 && (number_of_cases !== null && number_of_cases !== undefined) && Number(number_of_cases) !== NaN) {
@@ -56,6 +68,7 @@ const ObserverReportController = {
                     const observerReport = ObserverReport.create({
                         whistleblower: userId,
                         city: city,
+                        city_mongo_id: cityId,
                         neighborhood: neighborhoodId,
                         neighborhood_name: neighborhood_name,
                         report_type: report_type,
@@ -100,7 +113,8 @@ const ObserverReportController = {
                 }
                 const observerReport = ObserverReport.create({
                     whistleblower: userId,
-                    city: formatName(city),
+                    city: city,
+                    city_mongo_id: cityId,
                     neighborhood: neighborhoodId,
                     neighborhood_name: neighborhood_name,
                     report_type: report_type,

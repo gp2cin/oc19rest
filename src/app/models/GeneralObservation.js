@@ -4,6 +4,11 @@ const GeneralObservationSchema = new mongoose.Schema({
     city: {
         type: String,
     },
+    city_mongo_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'City',
+        select: false,
+    },
     observer_name: {
         type: String,
     },
