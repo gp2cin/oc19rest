@@ -13,13 +13,16 @@ const NeighborController = require('../../app/controllers/NeighborController');
 const GeneralObservationController = require('../../app/controllers/GeneralObservationController');
 const AWSBucketController = require('../../app/controllers/AWSBucketController');
 
-const updateGoogleSpreadsheet = require('../../googleSpreadsheets/updateSpreadsheet');
+const updateGoogleSpreadsheet = require('../../utils/googleSpreadsheets/updateSpreadsheet');
+// const csv = require('../../utils/csv/insertObserver');
+
 var APIRoutes = function (passport) {
+  // csv();
   updateGoogleSpreadsheet.start(); //atualização das planilhas do Google Spreadsheet
 
   router.post('/signin', AuthController.signIn);
   router.post('/signup', AuthController.signUp);
-  //router.post('/signupObserver', AuthController.signUpObserver);
+  // router.post('/signupObserver', AuthController.signUpObserver);
   router.get('/me', authMiddleware.checkToken, AuthController.me);
   router.post('/me/change-password', authMiddleware.checkToken, AuthController.changePassword);
 
