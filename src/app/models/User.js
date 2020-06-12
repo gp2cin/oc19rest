@@ -1,24 +1,25 @@
 const mongoose = require('../../services/database');
+require('mongoose-type-email');
 const bcrypt = require('bcryptjs');
-const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const { IndividualSchema } = require('./Individual');
 const { RoleSchema } = require('./Role');
 const UserSchema = new mongoose.Schema(
   {
     name: {
       type: String,
+      required: true
     },
     role: RoleSchema,
     email: {
-      type: String,
+      type: mongoose.SchemaTypes.Email,
       unique: true,
       lowercase: true,
       required: true,
-      match: [emailRegex, 'Please enter a valid email address'],
     },
     password: {
       type: String,
       select: false,
+      required: true
     },
     password_token: {
       type: String,
