@@ -11,6 +11,11 @@ const ObserverReportSchema = new mongoose.Schema({
     city: {
         type: String,
     },
+    city_mongo_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'City',
+        select: false,
+    },
     neighborhood: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Neighborhood',
@@ -23,7 +28,7 @@ const ObserverReportSchema = new mongoose.Schema({
         type: String,
     },
     case_type: {
-        typr: String,
+        type: String,
     },
     case_individual: IndividualSchema,
     household_contact_confirmed_case: {

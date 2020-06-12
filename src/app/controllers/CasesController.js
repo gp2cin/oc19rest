@@ -24,7 +24,14 @@ const CasesController = {
                 for (let c in cities) {
                     let official_cases = await CityOfficialCases.findOne({ city: cities[c]._id })
                     const state = await State.findOne({ _id: cities[c].state })
-                    const observer_reports = await ObserverReport.countDocuments({ city: cities[c].name_ca })
+                    const observer_reports = await ObserverReport.find({ city_mongo_id: cities[c]._id })
+
+                    const observer_reports_numbers = {
+                        'confirmed': observer_reports.filter((e) => { return e.case_type === "confirmed" }).length,
+                        'suspect': observer_reports.filter((e) => { return e.case_type === "suspect" }).length,
+                        'deaths': observer_reports.filter((e) => { return e.case_type === "death" }).length,
+                        'total': observer_reports.length
+                    }
 
                     if (official_cases) {
                         official_cases = {
@@ -51,7 +58,7 @@ const CasesController = {
                             name: cities[c].name,
                             state: state.name,
                             official_cases: official_cases,
-                            observer_reports: observer_reports.toLocaleString()
+                            observer_reports: observer_reports_numbers
                         },
                         geometry: cities[c].location
                     });
@@ -67,7 +74,13 @@ const CasesController = {
 
                 for (let n in neighborhoods) {
                     const city = await City.findOne({ _id: neighborhoods[n].city })
-                    const observer_reports = await ObserverReport.countDocuments({ neighborhood: neighborhoods[n]._id })
+                    const observer_reports = await ObserverReport.find({ neighborhood: neighborhoods[n]._id })
+                    const observer_reports_numbers = {
+                        'confirmed': observer_reports.filter((e) => { return e.case_type === "confirmed" }).length,
+                        'suspect': observer_reports.filter((e) => { return e.case_type === "suspect" }).length,
+                        'deaths': observer_reports.filter((e) => { return e.case_type === "death" }).length,
+                        'total': observer_reports.length
+                    }
                     neighbor_geojson.features.push({
                         type: "Feature",
                         properties: {
@@ -75,7 +88,7 @@ const CasesController = {
                             name_ca: neighborhoods[n].name_ca,
                             name: neighborhoods[n].name,
                             city: city.name,
-                            observer_reports: observer_reports.toLocaleString()
+                            observer_reports: observer_reports_numbers
                         },
                         geometry: neighborhoods[n].location
                     });
