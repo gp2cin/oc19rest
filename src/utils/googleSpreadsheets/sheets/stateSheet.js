@@ -1,6 +1,6 @@
 const UpdateSheet = require('./updateSheet');
 const MortalitySheet = require('./mortalitySheet');
-const formatName = require('../../utils/formatName')
+const formatName = require('../../formatName')
 
 const StateSheet = async function (doc) {
     const state_sheet = doc.sheetsByIndex[7]; //Pega a tabela de casos por municipios de Pernambuco
