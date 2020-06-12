@@ -22,39 +22,35 @@ const readCSV = async () => {
 
   fs.createReadStream('data.csv')
     .pipe(csv())
-    .on('data', (row) => {
-      const privilege = new Privilege({
+    .on('data', async (row) => {
+      const privilege = await Privilege.create({
         name: 'OBSERVER',
       });
-      const role = new Role({
+      await privilege.save();
+
+      const role = await Role.create({
         name: 'OBSERVER',
         privileges: [privilege],
       });
-      const info = {
+      await role.save();
+
+      const individual = await Individual.create({
+        gender: row['Sexo'][0] === 'F' ? 'FEMALE' : (row['Sexo'][0] == 'M' ? 'MALE' : 'OTHER'),
         createdAt: formatDate(row['Carimbo de data/hora']),
-        name: row['Nome Completo'].toUpperCase(),
+        updatedAt: new Date()
+      });
+      await individual.save();
+
+      const info = {
+        name: row['Nome Completo'],
         email: row.Email.replace(/( ){1,}/g, ''),
         password: Number(row.CPF.slice(0, 5)),
         role: role,
-        gender: row['Sexo'][0] === 'F' ? 'FEMALE' : (row['Sexo'][0] == 'M' ? 'MALE' : 'OTHER')
+        individual: individual
       }
 
-      let user = new User(info);
-
-      if (user) {
-        let individual = new Individual({
-          gender: info.gender,
-          createdAt: info.createdAt,
-          updatedAt: new Date()
-        });
-        individual.save((e) => {
-          if (e) console.log(e);
-        });
-        user.individual = individual;
-        user.save((e) => {
-          if (e) console.log(e);
-        });
-      }
+      const user = await User.create(info);
+      await user.save()
     })
     .on('end', () => {
       console.log('CSV file successfully processed');
