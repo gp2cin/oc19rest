@@ -6,11 +6,11 @@ dotenv.config();
 
 const AccessSpreadsheet = require('./accessSpreadsheet');
 
-const { World } = require('../app/models/World');
-const { City } = require('../app/models/City');
-const { Country } = require('../app/models/Country');
-const { CityOfficialCases } = require('../app/models/CityOfficialCases');
-const { State } = require('../app/models/State')
+const { World } = require('../../app/models/World');
+const { City } = require('../../app/models/City');
+const { Country } = require('../../app/models/Country');
+const { CityOfficialCases } = require('../../app/models/CityOfficialCases');
+const { State } = require('../../app/models/State')
 
 async function updateWorldData(sheets) {
   let sheet = sheets.world;
