@@ -22,8 +22,8 @@ var APIRoutes = function (passport) {
 
   router.post('/signin', AuthController.signIn);
   router.post('/signup', AuthController.signUp);
-  router.post('/signupObserver', AuthController.signUpObserver);
-  router.post('/signupAnalyst', AuthController.signUpAnalyst);
+  // router.post('/signupObserver', AuthController.signUpObserver);
+  // router.post('/signupAnalyst', AuthController.signUpAnalyst);
   router.get('/me', authMiddleware.checkToken, AuthController.me);
   router.put('/me/change-password', authMiddleware.checkToken, AuthController.changePassword);
 
