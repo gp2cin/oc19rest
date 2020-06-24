@@ -129,6 +129,55 @@ class AuthController {
   }
 
   /*
+   * Function to register a new analyst and get token
+   */
+  async signUpAnalyst(req, res) {
+    const { password, name, email, gender, birthdate } = req.body;
+    console.log(req.body);
+
+    try {
+      if (!(password || name || email)) {
+        res.status(404).send({ error: 'Name, email and password are required.' });
+      }
+      const searchUser = await User.findOne({ email });
+      if (searchUser) {
+        res.status(400).send({ error: 'User alredy exists.' });
+      } else {
+        const privilege = await Privilege.create({
+          name: 'ANALYST',
+        });
+        const role = await Role.create({
+          name: 'ANALYST',
+          privileges: [privilege],
+        });
+        const user = await User.create({ password, name, role, email, active: true });
+        if (user) {
+          const individual = await Individual.create({
+            gender: gender ? (['MALE', 'FEMALE'].includes(gender.toUpperCase()) ? gender.toUpperCase() : 'OTHER') : 'OTHER',
+            birthdate: moment(birthdate),
+          });
+          individual.createdAt = new Date();
+
+          individual.updateAt = new Date();
+          user.individual = individual;
+          await individual.save();
+
+          await user.save();
+          user.password = undefined;
+          res.status(201).send({ user, token: authMiddleware.generateToken({ id: user.id }) });
+        }
+      }
+    } catch (e) {
+      console.log(e);
+
+      res.status(400).send({
+        message: 'Registration failed',
+        error: e.errmsg
+      });
+    }
+  }
+
+  /*
    * Function to retreive user info
    */
 

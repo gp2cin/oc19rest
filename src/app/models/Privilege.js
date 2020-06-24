@@ -4,7 +4,7 @@ const PrivilegeSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      enum: ['ADMIN', 'COMMON', 'OBSERVER'],
+      enum: ['ADMIN', 'COMMON', 'OBSERVER', 'ANALYST'],
       default: 'COMMON',
     },
     active: {
