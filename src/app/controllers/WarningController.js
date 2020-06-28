@@ -13,8 +13,8 @@ const WarningController = {
       const {
         email,
         symptoms,
-        birthdate,
-        gender,
+        //birthdate,
+        //gender,
         address,
         diseases,
         covid_tested,
@@ -26,27 +26,28 @@ const WarningController = {
         had_evaluation_for_symptoms,
       } = req.body;
       if (!email) res.status(400).send({ message: 'Email is not found.' });
-      const searchUser = await User.findOne({ email });
-      let userId = undefined;
-      if (!searchUser) {
-        const password = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-        const user = await User.create({ password, email, active: true });
-        const individual = await Individual.create({
-          gender: gender ? (['MALE', 'FEMALE'].includes(gender.toUpperCase()) ? gender : 'OTHER') : 'OTHER',
-          birthdate: moment(birthdate),
-        });
-        user.individual = individual;
-        await user.save();
-        userId = user._id;
-      } else {
-        userId = searchUser._id;
-      }
+      // const searchUser = await User.findOne({ email });
+      // let userId = undefined;
+      // if (!searchUser) {
+      //   const password = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      //   const user = await User.create({ password, email, active: true });
+      //   const individual = await Individual.create({
+      //     gender: gender ? (['MALE', 'FEMALE'].includes(gender.toUpperCase()) ? gender : 'OTHER') : 'OTHER',
+      //     birthdate: moment(birthdate),
+      //   });
+      //   user.individual = individual;
+      //   await user.save();
+      //   userId = user._id;
+      // } else {
+      //   userId = searchUser._id;
+      // }
       const addrss = await Address.create(address);
       const diseass = await Diseases.create(diseases);
       const symp = await Symptoms.create(symptoms);
       const warning = await Warning.create({});
-      warning.whistleblower = userId;
-      warning.reported = userId;
+      //warning.whistleblower = userId;
+      //warning.reported = userId;
+      warning.whistleblowerEmail = email;
       warning.address = addrss;
       warning.diseases = diseass;
       warning.symptoms = symp;

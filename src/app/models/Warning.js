@@ -4,6 +4,9 @@ const { DiseasesSchema } = require('./Diseases');
 const { AddressSchema } = require('./Address');
 const WarningSchema = new mongoose.Schema(
   {
+    whistleblowerEmai: {
+      type: String,
+    },
     whistleblower: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

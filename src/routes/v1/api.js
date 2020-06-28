@@ -39,7 +39,7 @@ var APIRoutes = function (passport) {
   router.put('/phones/:id', authMiddleware.checkToken, PhoneController.update);
   router.delete('/phones/:id', authMiddleware.checkToken, PhoneController.remove);
 
-  router.post('/warnings', authMiddleware.checkToken, WarningController.store);
+  router.post('/warnings', WarningController.store);
   router.get('/warnings/map', WarningController.map);
   router.get('/warnings', WarningController.list);
 
