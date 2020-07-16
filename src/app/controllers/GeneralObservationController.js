@@ -14,6 +14,8 @@ const GeneralObservationController = {
                 neighborhood,
                 neighborhood_name,
                 report_type,
+                info_source,
+                info_source_link,
                 observation,
                 image_url,
             } = req.body;
@@ -61,11 +63,11 @@ const GeneralObservationController = {
                             city_mongo_id: cityId,
                             report_type: report_type,
                             observation: observation,
+                            info_source: info_source,
+                            info_source_link: info_source_link,
                             image_url: image_url,
                             user: userId,
                         })
-
-                        console.log(generalObservation);
 
                         GeneralObservation.collection.insertOne(generalObservation, (err, docs) => {
                             if (err) {
@@ -91,12 +93,12 @@ const GeneralObservationController = {
                     city: city,
                     city_mongo_id: cityId,
                     report_type: report_type,
+                    info_source: info_source,
+                    info_source_link: info_source_link,
                     observation: observation,
                     image_url: image_url,
                     user: userId,
                 })
-
-                console.log(generalObservation);
 
                 GeneralObservation.collection.insertOne(generalObservation, (err, docs) => {
                     if (err) {

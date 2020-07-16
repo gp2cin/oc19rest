@@ -37,6 +37,12 @@ const GeneralObservationSchema = new mongoose.Schema({
     image_url: {
         type: String,
     },
+    info_source: {
+        type: String,
+    },
+    info_source_link: {
+        type: String,
+    },
     active: {
         type: Boolean,
         default: true,
