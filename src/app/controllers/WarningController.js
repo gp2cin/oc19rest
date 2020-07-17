@@ -6,6 +6,8 @@ const { Address } = require('../models/Address');
 const { Individual } = require('../models/Individual');
 const { Diseases } = require('../models/Diseases');
 const { Symptoms } = require('../models/Symptoms');
+const { Neighborhood } = require('../models/Neighborhood');
+const { City } = require('../models/City');
 
 const WarningController = {
   store: async (req, res) => {
@@ -13,9 +15,10 @@ const WarningController = {
       const {
         email,
         symptoms,
-        //birthdate,
-        //gender,
-        address,
+        city,
+        city_ca,
+        neighborhood,
+        neighborhood_name,
         diseases,
         covid_tested,
         covid_result,
@@ -26,29 +29,36 @@ const WarningController = {
         had_evaluation_for_symptoms,
       } = req.body;
       if (!email) res.status(400).send({ message: 'Email is not found.' });
-      // const searchUser = await User.findOne({ email });
-      // let userId = undefined;
-      // if (!searchUser) {
-      //   const password = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-      //   const user = await User.create({ password, email, active: true });
-      //   const individual = await Individual.create({
-      //     gender: gender ? (['MALE', 'FEMALE'].includes(gender.toUpperCase()) ? gender : 'OTHER') : 'OTHER',
-      //     birthdate: moment(birthdate),
-      //   });
-      //   user.individual = individual;
-      //   await user.save();
-      //   userId = user._id;
-      // } else {
-      //   userId = searchUser._id;
-      // }
-      const addrss = await Address.create(address);
+
+      let neighborhoodId = undefined;
+      if (neighborhood) {
+        const searchNeighborhood = await Neighborhood.findOne({ _id: neighborhood });
+        if (searchNeighborhood) {
+          neighborhoodId = searchNeighborhood._id;
+        } else {
+          console.log('Neighborhood not found');
+        }
+      }
+
+      let cityId = undefined;
+      if (city_ca) {
+        const searchCity = await City.findOne({ name_ca: city_ca });
+        if (searchCity) {
+          cityId = searchCity._id;
+        } else {
+          console.log('City not found');
+        }
+      }
       const diseass = await Diseases.create(diseases);
       const symp = await Symptoms.create(symptoms);
       const warning = await Warning.create({});
       //warning.whistleblower = userId;
       //warning.reported = userId;
       warning.whistleblowerEmail = email;
-      warning.address = addrss;
+      warning.city = city;
+      warning.city_mongo_id = cityId;
+      warning.neighborhood_name = neighborhood_name;
+      warning.neighborhood = neighborhoodId;
       warning.diseases = diseass;
       warning.symptoms = symp;
       warning.covid_tested = covid_tested;

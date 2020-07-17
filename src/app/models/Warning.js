@@ -12,6 +12,22 @@ const WarningSchema = new mongoose.Schema(
       ref: 'User',
       select: false,
     },
+    city: {
+      type: String,
+    },
+    city_mongo_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'City',
+      select: false,
+    },
+    neighborhood: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Neighborhood',
+      select: false,
+    },
+    neighborhood_name: {
+      type: String,
+    },
     reported: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
