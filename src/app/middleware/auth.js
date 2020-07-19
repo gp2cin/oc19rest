@@ -22,6 +22,14 @@ const checkToken = (req, res, next) => {
 
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
+      if (err.name) {
+        if (err.name === 'TokenExpiredError') {
+          return res.status(401).json({
+            success: false,
+            message: 'Token has expired'
+          });
+        }
+      }
       return res.status(401).json({
         success: false,
         message: 'Token is not valid'
