@@ -81,6 +81,8 @@ const DashboardController = {
         list = query.filter((elem) => observers.indexOf(elem.observer_email) !== -1);
       } else if (agentType === 'Indivíduo') {
         list = query.filter((elem) => observers.indexOf(elem.observer_email) === -1);
+      } else {
+        list = query;
       }
       res.status(200).send(list);
     } catch (error) {
