@@ -12,6 +12,7 @@ const CasesController = require('../../app/controllers/CasesController');
 const NeighborController = require('../../app/controllers/NeighborController');
 const GeneralObservationController = require('../../app/controllers/GeneralObservationController');
 const AWSBucketController = require('../../app/controllers/AWSBucketController');
+const DashboardController = require('../../app/controllers/DashboardController');
 
 const updateGoogleSpreadsheet = require('../../utils/googleSpreadsheets/updateSpreadsheet');
 // const csv = require('../../utils/csv/insertObserver');
@@ -65,6 +66,18 @@ var APIRoutes = function (passport) {
 
   router.get('/generate-get-url', AWSBucketController.getURL);
   router.get('/generate-put-url', AWSBucketController.putURL);
+
+  //Dashboard
+  router.get(
+    '/dashboard/statistics',
+    authMiddleware.checkToken,
+    authMiddleware.allowOnly(['ANALYST'], DashboardController.statistics)
+  );
+  router.get(
+    '/dashboard/filters',
+    authMiddleware.checkToken,
+    authMiddleware.allowOnly(['ANALYST'], DashboardController.filters)
+  );
 
   return router;
 };
