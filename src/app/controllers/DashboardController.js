@@ -4,9 +4,21 @@ const { Warning } = require('../models/Warning');
 const { ObserverReport } = require('../models/ObserverReport');
 const { Role } = require('../models/Role');
 
-const db_query = async (observerType, neighborhood, city) => {
+const db_query = async (observerType, neighborhood, city, fromDate, toDate) => {
   let query = [];
   let params = { active: true };
+  let createdAt = {};
+
+  if (toDate && fromDate) {
+    createdAt = { $gte: new Date(fromDate), $lte: new Date(toDate) };
+    params = { ...params, createdAt };
+  } else if (fromDate) {
+    createdAt = { $gte: new Date(fromDate) };
+    params = { ...params, createdAt };
+  } else if (toDate) {
+    createdAt = { $lte: new Date(toDate) };
+    params = { ...params, createdAt };
+  }
 
   if (neighborhood && city) {
     params = { ...params, neighborhood_name: neighborhood, city };
@@ -17,13 +29,14 @@ const db_query = async (observerType, neighborhood, city) => {
   }
 
   switch (observerType) {
-    case 'Observações em Gerais':
+    case 'Observações Gerais':
       query = await GeneralObservation.find(params);
       break;
 
     case 'Observações em Lote':
       params = { ...params, report_type: 'social' };
       query = await ObserverReport.find(params);
+      console.log('query', query[0]);
       break;
 
     case 'Observações Individuais':
@@ -44,6 +57,7 @@ const db_query = async (observerType, neighborhood, city) => {
       break;
   }
 
+  console.log(params);
   return query;
 };
 
@@ -63,12 +77,12 @@ const DashboardController = {
   },
 
   filters: async (req, res) => {
-    const { agentType, observerType, neighborhood, city } = req.query;
+    const { agentType, observerType, neighborhood, city, fromDate, toDate } = req.query;
     let list = [];
 
     try {
       const users = await User.find();
-      const query = await db_query(observerType, neighborhood, city);
+      const query = await db_query(observerType, neighborhood, city, fromDate, toDate);
 
       let observers = [];
       users.map((user) => {
@@ -76,7 +90,7 @@ const DashboardController = {
           observers.push(user.email);
         }
       });
-
+      console.log('emails', observers);
       if (agentType === 'Observador') {
         list = query.filter((elem) => observers.indexOf(elem.observer_email) !== -1);
       } else if (agentType === 'Indivíduo') {
