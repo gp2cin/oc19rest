@@ -29,17 +29,17 @@ var APIRoutes = function (passport) {
   router.get('/me', authMiddleware.checkToken, AuthController.me);
   router.put('/me/change-password', authMiddleware.checkToken, AuthController.changePassword);
 
-  router.get('/addresses', authMiddleware.checkToken, AddressController.list);
-  router.post('/addresses', authMiddleware.checkToken, AddressController.store);
-  router.get('/addresses/:id', authMiddleware.checkToken, AddressController.find);
-  router.put('/addresses/:id', authMiddleware.checkToken, AddressController.update);
-  router.delete('/addresses/:id', authMiddleware.checkToken, AddressController.remove);
+  // router.get('/addresses', authMiddleware.checkToken, AddressController.list);
+  // router.post('/addresses', authMiddleware.checkToken, AddressController.store);
+  // router.get('/addresses/:id', authMiddleware.checkToken, AddressController.find);
+  // router.put('/addresses/:id', authMiddleware.checkToken, AddressController.update);
+  // router.delete('/addresses/:id', authMiddleware.checkToken, AddressController.remove);
 
-  router.get('/phones', authMiddleware.checkToken, PhoneController.list);
-  router.post('/phones', authMiddleware.checkToken, PhoneController.store);
-  router.get('/phones/:id', authMiddleware.checkToken, PhoneController.find);
-  router.put('/phones/:id', authMiddleware.checkToken, PhoneController.update);
-  router.delete('/phones/:id', authMiddleware.checkToken, PhoneController.remove);
+  // router.get('/phones', authMiddleware.checkToken, PhoneController.list);
+  // router.post('/phones', authMiddleware.checkToken, PhoneController.store);
+  // router.get('/phones/:id', authMiddleware.checkToken, PhoneController.find);
+  // router.put('/phones/:id', authMiddleware.checkToken, PhoneController.update);
+  // router.delete('/phones/:id', authMiddleware.checkToken, PhoneController.remove);
 
   router.post('/warnings', WarningController.store);
   router.get('/warnings/map', WarningController.map);

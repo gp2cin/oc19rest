@@ -6,6 +6,8 @@ const { Role } = require('../models/Role');
 const { Privilege } = require('../models/Privilege');
 const { Address } = require('../models/Address');
 const { Phones } = require('../models/Phone');
+const { Neighborhood } = require('../models/Neighborhood');
+const { City } = require('../models/City');
 const authMiddleware = require('../middleware/auth');
 const moment = require('moment');
 
@@ -53,6 +55,7 @@ class AuthController {
           name: 'COMMON',
           privileges: [privilege],
         });
+
         const user = await User.create({ password, name, role, email, active: true });
         if (user) {
           const individual = await Individual.create({
@@ -83,7 +86,7 @@ class AuthController {
    * Function to register a new observer and get token
    */
   async signUpObserver(req, res) {
-    const { password, name, email, gender, birthdate } = req.body;
+    const { password, name, email, gender, birthdate, city, neighborhood } = req.body;
     console.log(req.body);
 
     try {
@@ -101,6 +104,36 @@ class AuthController {
           name: 'OBSERVER',
           privileges: [privilege],
         });
+
+        let neighborhoodId = undefined;
+        if (neighborhood) {
+          const searchNeighborhood = await Neighborhood.findOne({ _id: neighborhood });
+          if (searchNeighborhood) {
+            neighborhoodId = searchNeighborhood._id;
+          } else {
+            console.log('Neighborhood not found');
+          }
+        }
+
+        let cityId = undefined;
+        if (city) {
+          const searchCity = await City.findOne({ name_ca: city });
+          if (searchCity) {
+            cityId = searchCity._id;
+          } else {
+            console.log('City not found');
+          }
+        }
+
+        const address = await Address.create({
+          city: cityId,
+          neighborhood: neighborhoodId,
+          active: true
+        });
+
+        console.log('ADDRESS')
+        console.log(address)
+
         const user = await User.create({ password, name, role, email, active: true });
         if (user) {
           const individual = await Individual.create({
@@ -108,6 +141,8 @@ class AuthController {
             birthdate: moment(birthdate),
           });
           individual.createdAt = new Date();
+
+          individual.address = address;
 
           individual.updateAt = new Date();
           user.individual = individual;
@@ -132,7 +167,7 @@ class AuthController {
    * Function to register a new analyst and get token
    */
   async signUpAnalyst(req, res) {
-    const { password, name, email, gender, birthdate } = req.body;
+    const { password, name, email, gender, birthdate, city, neighborhood } = req.body;
     console.log(req.body);
 
     try {
@@ -150,6 +185,33 @@ class AuthController {
           name: 'ANALYST',
           privileges: [privilege],
         });
+
+        let neighborhoodId = undefined;
+        if (neighborhood) {
+          const searchNeighborhood = await Neighborhood.findOne({ _id: neighborhood });
+          if (searchNeighborhood) {
+            neighborhoodId = searchNeighborhood._id;
+          } else {
+            console.log('Neighborhood not found');
+          }
+        }
+
+        let cityId = undefined;
+        if (city) {
+          const searchCity = await City.findOne({ name_ca: city });
+          if (searchCity) {
+            cityId = searchCity._id;
+          } else {
+            console.log('City not found');
+          }
+        }
+
+        const address = await Address.create({
+          city: cityId,
+          neighborhood: neighborhoodId,
+          active: true
+        });
+
         const user = await User.create({ password, name, role, email, active: true });
         if (user) {
           const individual = await Individual.create({
@@ -157,6 +219,8 @@ class AuthController {
             birthdate: moment(birthdate),
           });
           individual.createdAt = new Date();
+
+          individual.address = address;
 
           individual.updateAt = new Date();
           user.individual = individual;

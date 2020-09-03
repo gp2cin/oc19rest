@@ -32,7 +32,7 @@ const IndividualSchema = new mongoose.Schema(
     allergies: [AllergySchema],
     documents: [DocumentSchema],
     phones: [PhoneSchema],
-    addresses: [AddressSchema],
+    address: AddressSchema,
     medicines: [MedicineSchema],
     active: {
       type: Boolean,
